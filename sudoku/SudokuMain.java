@@ -11,21 +11,9 @@ import javax.swing.*;
  */
 public class SudokuMain extends JFrame {
     private static final long serialVersionUID = 1L; // to prevent serial warning
-
-    // == Define named constants for the game ==
-    /** Number of rows of the game board (in cells) */
-    public static final int ROWS = 40;
-    /** Number of columns of the game board (in cells) */
-    public static final int COLS = 40;
-    /** Size of the body cell (in pixels) */
-    public static final int CELL_SIZE = 16;
-
     /** App title */
     public static final String TITLE = "Sudoku";
-    /** Width (in pixels) of the game board */
-    public static final int PIT_WIDTH = COLS * CELL_SIZE;
-    /** Height (in pixels) of the game board */
-    public static final int PIT_HEIGHT = ROWS * CELL_SIZE;
+    public static JFrame frame = new JFrame(TITLE);
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
@@ -66,7 +54,6 @@ public class SudokuMain extends JFrame {
             @Override
             public void run() {
                 SudokuMain main = new SudokuMain();
-                JFrame frame = new JFrame(TITLE);
                 frame.setContentPane(main); // main JPanel as content pane
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
@@ -75,4 +62,5 @@ public class SudokuMain extends JFrame {
             }
         });
     }
+
 }

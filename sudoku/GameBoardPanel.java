@@ -16,6 +16,10 @@ public class GameBoardPanel extends JPanel {
     public static final int BOARD_HEIGHT = CELL_SIZE * GRID_SIZE;
     // Board width/height in pixels
 
+    public static final Color COLOR_PIT = Color.LIGHT_GRAY;
+    public static final Color COLOR_GAMEOVER = Color.GREEN;
+    public static final Font FONT_GAMEOVER = new Font("Verdana", Font.BOLD, 30);
+
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
     private Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
@@ -36,10 +40,16 @@ public class GameBoardPanel extends JPanel {
 
         // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
         // Cells (JTextFields)
-        // .........
+        CellInputListener listener = new CellInputListener();
 
         // [TODO 4] Adds this common listener to all editable cells
-        // .........
+        for (int row = 0; row < GRID_SIZE; ++row) {
+            for (int col = 0; col < GRID_SIZE; ++col) {
+                if (cells[row][col].isEditable()) {
+                    cells[row][col].addActionListener(listener); // For all editable rows and cols
+                }
+            }
+        }
 
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     }
@@ -50,7 +60,7 @@ public class GameBoardPanel extends JPanel {
      */
     public void newGame() {
         // Generate a new puzzle
-        puzzle.newPuzzle(2);
+        puzzle.newPuzzle(8);
 
         // Initialize all the 9x9 cells, based on the puzzle.
         for (int row = 0; row < GRID_SIZE; ++row) {
@@ -75,6 +85,40 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
-    // [TODO 2] Define a Listener Inner Class for all the editable Cells
-    // .........
+    private class CellInputListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // Get a reference of the JTextField that triggers this action event
+            Cell sourceCell = (Cell) e.getSource();
+
+            // Retrieve the int entered
+            int numberIn = Integer.parseInt(sourceCell.getText());
+            // For debugging
+            System.out.println("You entered " + numberIn);
+
+            // check if number entered is correct or wrong
+            if (numberIn == sourceCell.number) {
+                sourceCell.status = CellStatus.CORRECT_GUESS;
+                System.out.println(isSolved());
+                if (isSolved()) {
+                    System.out.println("solved");
+                    showCongrats();
+                }
+            } else {
+                sourceCell.status = CellStatus.WRONG_GUESS;
+            }
+            sourceCell.paint(); // re-paint this cell based on its status
+
+        }
+
+        private void showCongrats() {
+
+            JFrame frame = SudokuMain.frame;
+            JLabel label = new JLabel("Congrats");
+            frame.add(label, BorderLayout.CENTER);
+            System.out.println("Supposed to show");
+            SwingUtilities.updateComponentTreeUI(frame);
+        }
+
+    }
 }
