@@ -40,13 +40,13 @@ public class GameBoardPanel extends JPanel {
 
         // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
         // Cells (JTextFields)
-        CellInputListener listener = new CellInputListener();
+        CellKeyListener listener = new CellKeyListener();
 
         // [TODO 4] Adds this common listener to all editable cells
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 if (cells[row][col].isEditable()) {
-                    cells[row][col].addActionListener(listener); // For all editable rows and cols
+                    cells[row][col].addKeyListener(listener); // For all editable rows and cols
                 }
             }
         }
@@ -85,34 +85,42 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
-    private class CellInputListener implements ActionListener {
+    private class CellKeyListener implements KeyListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
+        public void keyTyped(KeyEvent e) {
             // Get a reference of the JTextField that triggers this action event
             Cell sourceCell = (Cell) e.getSource();
+            char in = e.getKeyChar();
+            if (Character.isDigit(in) || Character.getNumericValue(in) == -1) {
+                // Retrieve the int entered
+                int numberIn = Character.getNumericValue(in);
 
-            // Retrieve the int entered
-            int numberIn = Integer.parseInt(sourceCell.getText());
-            // For debugging
-            System.out.println("You entered " + numberIn);
+                // For debugging
+                System.out.println("You entered " + numberIn);
 
-            // check if number entered is correct or wrong
-            if (numberIn == sourceCell.number) {
-                sourceCell.status = CellStatus.CORRECT_GUESS;
-                System.out.println(isSolved());
+                // check if number entered is correct or wrong
+                if (numberIn == sourceCell.number) {
+                    sourceCell.status = CellStatus.CORRECT_GUESS;
+                    System.out.println(isSolved());
+
+                } else {
+                    sourceCell.status = CellStatus.WRONG_GUESS;
+                }
+                sourceCell.paint(); // re-paint this cell based on its status
+
                 if (isSolved()) {
                     System.out.println("solved");
-                    showCongrats();
+                    displayPopup("Congratulation! You WON!");
                 }
+
             } else {
-                sourceCell.status = CellStatus.WRONG_GUESS;
+                displayPopup("Please enter a number");
             }
-            sourceCell.paint(); // re-paint this cell based on its status
 
         }
 
-        private void showCongrats() {
-            JOptionPane.showMessageDialog(null, "Congratulation!");
+        private void displayPopup(String message) {
+            JOptionPane.showMessageDialog(null, message);
             // JFrame frame = SudokuMain.frame;
             // JLabel label = new JLabel("Congrats");
             // frame.add(label, BorderLayout.CENTER);
@@ -120,5 +128,16 @@ public class GameBoardPanel extends JPanel {
             // SwingUtilities.updateComponentTreeUI(frame);
         }
 
+        @Override
+        public void keyPressed(KeyEvent e) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            // TODO Auto-generated method stub
+
+        }
     }
 }
