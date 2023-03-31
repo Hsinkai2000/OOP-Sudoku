@@ -112,12 +112,12 @@ public class GameBoardPanel extends JPanel {
         }
 
         private void showCongrats() {
-
-            JFrame frame = SudokuMain.frame;
-            JLabel label = new JLabel("Congrats");
-            frame.add(label, BorderLayout.CENTER);
-            System.out.println("Supposed to show");
-            SwingUtilities.updateComponentTreeUI(frame);
+            JOptionPane.showMessageDialog(null, "Congratulation!");
+            // JFrame frame = SudokuMain.frame;
+            // JLabel label = new JLabel("Congrats");
+            // frame.add(label, BorderLayout.CENTER);
+            // System.out.println("Supposed to show");
+            // SwingUtilities.updateComponentTreeUI(frame);
         }
 
     }
