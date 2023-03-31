@@ -38,11 +38,8 @@ public class GameBoardPanel extends JPanel {
             }
         }
 
-        // [TODO 3] Allocate a common listener as the ActionEvent listener for all the
-        // Cells (JTextFields)
         CellKeyListener listener = new CellKeyListener();
 
-        // [TODO 4] Adds this common listener to all editable cells
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 if (cells[row][col].isEditable()) {
@@ -139,14 +136,10 @@ public class GameBoardPanel extends JPanel {
 
         @Override
         public void keyPressed(KeyEvent e) {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            // TODO Auto-generated method stub
-
         }
     }
 }

@@ -16,8 +16,9 @@ public class SudokuMain extends JFrame {
     public static JFrame frame = new JFrame(TITLE);
     // private variables
     GameBoardPanel board = new GameBoardPanel();
-    JButton btnNewGame = new JButton("New Game");
-    JButton btnResetGame = new JButton("Reset Game");
+    JMenuItem newGame = new JMenuItem("New Game");
+    JMenuItem resetGame = new JMenuItem("Reset Game");
+    static JMenuBar menuBar;
 
     // Constructor
     public SudokuMain() {
@@ -26,11 +27,8 @@ public class SudokuMain extends JFrame {
 
         cp.add(board, BorderLayout.CENTER);
 
-        // Add a button to the south to re-start the game via board.newGame()
-        // ......
-        cp.add(btnNewGame, BorderLayout.WEST);
-        cp.add(btnResetGame, BorderLayout.SOUTH);
-        btnOnclick();
+        generateMenuBar();
+        this.setJMenuBar(menuBar);
 
         // Initialize the game board to start the game
         board.newGame();
@@ -41,14 +39,37 @@ public class SudokuMain extends JFrame {
         setVisible(true);
     }
 
-    private void btnOnclick() {
-        btnNewGame.addActionListener(new ActionListener() {
+    private void generateMenuBar() {
+        menuBar = new JMenuBar();
+
+        // File Menu
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem exit = new JMenuItem("Exit");
+        fileMenu.add(newGame);
+        fileMenu.add(resetGame);
+        fileMenu.add(exit);
+        menuBar.add(fileMenu);
+
+        // Options Menu
+        JMenu optionsMenu = new JMenu("Options");
+        menuBar.add(optionsMenu);
+
+        // Help Menu
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(helpMenu);
+
+        menuOnclick();
+
+    }
+
+    private void menuOnclick() {
+        newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 board.newGame();
             }
         });
 
-        btnResetGame.addActionListener(new ActionListener() {
+        resetGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 board.resetGame();
             }
