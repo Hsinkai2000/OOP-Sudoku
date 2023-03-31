@@ -17,6 +17,7 @@ public class SudokuMain extends JFrame {
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JButton btnNewGame = new JButton("New Game");
+    JButton btnResetGame = new JButton("Reset Game");
 
     // Constructor
     public SudokuMain() {
@@ -27,7 +28,8 @@ public class SudokuMain extends JFrame {
 
         // Add a button to the south to re-start the game via board.newGame()
         // ......
-        cp.add(btnNewGame, BorderLayout.SOUTH);
+        cp.add(btnNewGame, BorderLayout.WEST);
+        cp.add(btnResetGame, BorderLayout.SOUTH);
         btnOnclick();
 
         // Initialize the game board to start the game
@@ -43,6 +45,12 @@ public class SudokuMain extends JFrame {
         btnNewGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 board.newGame();
+            }
+        });
+
+        btnResetGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                board.resetGame();
             }
         });
     }

@@ -70,6 +70,15 @@ public class GameBoardPanel extends JPanel {
         }
     }
 
+    public void resetGame() {
+        // Initialize all the 9x9 cells, based on the puzzle.
+        for (int row = 0; row < GRID_SIZE; ++row) {
+            for (int col = 0; col < GRID_SIZE; ++col) {
+                cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
+            }
+        }
+    }
+
     /**
      * Return true if the puzzle is solved
      * i.e., none of the cell have status of TO_GUESS or WRONG_GUESS
