@@ -1,5 +1,7 @@
 package sudoku;
 
+import java.util.Random;
+
 /**
  * The Sudoku number puzzle to be solved
  */
@@ -21,7 +23,7 @@ public class Puzzle {
     // This method shall set (or update) the arrays numbers and isGiven
     public void newPuzzle(int cellsToGuess) {
         // I hardcode a puzzle here for illustration and testing.
-        int[][] hardcodedNumbers = { { 5, 3, 4, 6, 7, 8, 9, 1, 2 },
+        int[][] hardcodedGrid = { { 5, 3, 4, 6, 7, 8, 9, 1, 2 },
                 { 6, 7, 2, 1, 9, 5, 3, 4, 8 },
                 { 1, 9, 8, 3, 4, 2, 5, 6, 7 },
                 { 8, 5, 9, 7, 6, 1, 4, 2, 3 },
@@ -31,10 +33,11 @@ public class Puzzle {
                 { 2, 8, 7, 4, 1, 9, 6, 3, 5 },
                 { 3, 4, 5, 2, 8, 6, 1, 7, 9 } };
 
+        int[][] revisedGrid = rearrange(hardcodedGrid);
         // Copy from hardcodedNumbers into the array "numbers"
         for (int row = 0; row < GameBoardPanel.GRID_SIZE; ++row) {
             for (int col = 0; col < GameBoardPanel.GRID_SIZE; ++col) {
-                numbers[row][col] = hardcodedNumbers[row][col];
+                numbers[row][col] = revisedGrid[row][col];
             }
         }
 
@@ -56,6 +59,25 @@ public class Puzzle {
                 isGiven[row][col] = hardcodedIsGiven[row][col];
             }
         }
+    }
+
+    private int[][] rearrange(int[][] grid) {
+
+        Random rand = new Random();
+
+        for (int i = 0; i <= 6; i += 3) {
+            // finding groups of 3 rows
+            int small = i;
+            int big = small + 2;
+
+            for (int lower = small; lower <= big; lower++) {
+                int randomIndexToSwap = rand.nextInt(2) + small;
+                int temp[] = grid[randomIndexToSwap];
+                grid[randomIndexToSwap] = grid[lower];
+                grid[lower] = temp;
+            }
+        }
+        return grid;
     }
 
     // (For advanced students) use singleton design pattern for this class
