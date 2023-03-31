@@ -1,5 +1,6 @@
 package sudoku;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -23,7 +24,8 @@ public class Puzzle {
     // This method shall set (or update) the arrays numbers and isGiven
     public void newPuzzle(int cellsToGuess) {
         // I hardcode a puzzle here for illustration and testing.
-        int[][] hardcodedGrid = { { 5, 3, 4, 6, 7, 8, 9, 1, 2 },
+        int[][] hardcodedGrid = {
+                { 5, 3, 4, 6, 7, 8, 9, 1, 2 },
                 { 6, 7, 2, 1, 9, 5, 3, 4, 8 },
                 { 1, 9, 8, 3, 4, 2, 5, 6, 7 },
                 { 8, 5, 9, 7, 6, 1, 4, 2, 3 },
@@ -62,9 +64,33 @@ public class Puzzle {
     }
 
     private int[][] rearrange(int[][] grid) {
+        int[][] gridrow = rearrangeRow(grid);
+        int[][] finalgrid = rearrageCol(gridrow);
+        return finalgrid;
+    }
 
+    private int[][] rearrageCol(int[][] grid) {
         Random rand = new Random();
+        System.out.println("in rearrangeCol");
+        for (int i = 0; i <= 6; i += 3) {
+            int small = i;
+            int big = small + 2;
+            for (int lower = small; lower <= big; lower++) {
+                int randomIndexToSwap = rand.nextInt(2) + small;
+                for (int j = 0; j < 9; j++) {
+                    int tempR1 = grid[randomIndexToSwap][j];
+                    grid[randomIndexToSwap][j] = grid[lower][j];
+                    grid[lower][j] = tempR1;
+                }
+            }
+        }
 
+        return grid;
+    }
+
+    private int[][] rearrangeRow(int[][] grid) {
+        Random rand = new Random();
+        System.out.println("in rearrageRow");
         for (int i = 0; i <= 6; i += 3) {
             // finding groups of 3 rows
             int small = i;
@@ -79,6 +105,5 @@ public class Puzzle {
         }
         return grid;
     }
-
     // (For advanced students) use singleton design pattern for this class
 }
