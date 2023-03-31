@@ -19,6 +19,9 @@ public class SudokuMain extends JFrame {
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem resetGame = new JMenuItem("Reset Game");
     static JMenuBar menuBar;
+    JPanel bottomBar = new JPanel(new GridLayout(1, 0));
+    public static JLabel score = new JLabel("Score: 0");
+    public static JLabel time = new JLabel("Time: 0");
 
     // Constructor
     public SudokuMain() {
@@ -26,6 +29,9 @@ public class SudokuMain extends JFrame {
         cp.setLayout(new BorderLayout());
 
         cp.add(board, BorderLayout.CENTER);
+        bottomBar.add(time);
+        bottomBar.add(score);
+        this.add(bottomBar, BorderLayout.SOUTH);
 
         generateMenuBar();
         this.setJMenuBar(menuBar);

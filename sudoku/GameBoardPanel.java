@@ -2,6 +2,9 @@ package sudoku;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.Duration;
+import java.time.Instant;
+
 import javax.swing.*;
 
 public class GameBoardPanel extends JPanel {
@@ -20,11 +23,14 @@ public class GameBoardPanel extends JPanel {
     public static final Color COLOR_GAMEOVER = Color.GREEN;
     public static final Font FONT_GAMEOVER = new Font("Verdana", Font.BOLD, 30);
 
+    public static int STEPS_PER_SEC = 6;
+    public static int STEP_IN_MSEC = 1000 / STEPS_PER_SEC;
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
     private Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
     /** It also contains a Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
+    private int score = 0;
 
     /** Constructor */
     public GameBoardPanel() {
@@ -65,6 +71,15 @@ public class GameBoardPanel extends JPanel {
                 cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
             }
         }
+        Instant instantStart = Instant.now();
+        Timer stepTimer = new Timer(STEP_IN_MSEC, e -> stepGame(instantStart));
+        stepTimer.start();
+    }
+
+    private void stepGame(Instant instantStart) {
+        Instant instantStop = Instant.now();
+        Duration ElapsedTime = Duration.between(instantStart, instantStop);
+        SudokuMain.time.setText("Time: " + ElapsedTime.toSeconds());
     }
 
     public void resetGame() {
@@ -108,11 +123,12 @@ public class GameBoardPanel extends JPanel {
                 if (numberIn == sourceCell.number) {
                     sourceCell.status = CellStatus.CORRECT_GUESS;
                     System.out.println(isSolved());
-
+                    score += 100;
                 } else {
                     sourceCell.status = CellStatus.WRONG_GUESS;
                 }
                 sourceCell.paint(); // re-paint this cell based on its status
+                SudokuMain.score.setText("Score: " + score);
 
                 if (isSolved()) {
                     System.out.println("solved");
