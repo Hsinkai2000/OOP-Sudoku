@@ -31,6 +31,8 @@ public class GameBoardPanel extends JPanel {
     /** It also contains a Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
     private int score = 0;
+    private int difficulty = 1;
+    private int blanksLeft;
 
     /** Constructor */
     public GameBoardPanel() {
@@ -63,7 +65,9 @@ public class GameBoardPanel extends JPanel {
      */
     public void newGame() {
         // Generate a new puzzle
-        puzzle.newPuzzle(8);
+        blanksLeft = 3 * difficulty;
+        SudokuMain.remaining.setText("Remaining: " + blanksLeft);
+        puzzle.newPuzzle(blanksLeft);
 
         // Initialize all the 9x9 cells, based on the puzzle.
         for (int row = 0; row < GRID_SIZE; ++row) {
@@ -124,6 +128,8 @@ public class GameBoardPanel extends JPanel {
                     sourceCell.status = CellStatus.CORRECT_GUESS;
                     System.out.println(isSolved());
                     score += 100;
+                    blanksLeft--;
+                    SudokuMain.remaining.setText("Remaining: " + blanksLeft);
                 } else {
                     sourceCell.status = CellStatus.WRONG_GUESS;
                 }
@@ -157,5 +163,9 @@ public class GameBoardPanel extends JPanel {
         @Override
         public void keyReleased(KeyEvent e) {
         }
+    }
+
+    public void setPuzzleDifficulty(int level) {
+        this.difficulty = level;
     }
 }

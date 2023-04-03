@@ -44,8 +44,8 @@ public class Puzzle {
 
         // Need to use input parameter cellsToGuess!
         // Hardcoded for testing, only 2 cells of "8" is NOT GIVEN
-        boolean[][] hardcodedIsGiven = { { true, true, true, true, true, false, true, true, true },
-                { true, true, true, true, true, true, true, true, false },
+        boolean[][] hardcodedIsGiven = { { true, true, true, true, true, true, true, true, true },
+                { true, true, true, true, true, true, true, true, true },
                 { true, true, true, true, true, true, true, true, true },
                 { true, true, true, true, true, true, true, true, true },
                 { true, true, true, true, true, true, true, true, true },
@@ -54,12 +54,28 @@ public class Puzzle {
                 { true, true, true, true, true, true, true, true, true },
                 { true, true, true, true, true, true, true, true, true } };
 
+        boolean[][] filteredIsGiven = addblanks(cellsToGuess, hardcodedIsGiven);
+
         // Copy from hardcodedIsGiven into array "isGiven"
         for (int row = 0; row < GameBoardPanel.GRID_SIZE; ++row) {
             for (int col = 0; col < GameBoardPanel.GRID_SIZE; ++col) {
-                isGiven[row][col] = hardcodedIsGiven[row][col];
+                isGiven[row][col] = filteredIsGiven[row][col];
             }
         }
+    }
+
+    private boolean[][] addblanks(int cellsToGuess, boolean[][] hardcodedIsGiven) {
+        for (int i = cellsToGuess; i > 0; i--) {
+            Random rand = new Random();
+            int randomRow = rand.nextInt(9);
+            int randomCol = rand.nextInt(9);
+            if (hardcodedIsGiven[randomRow][randomCol]) {
+                hardcodedIsGiven[randomRow][randomCol] = false;
+            } else {
+                i++;
+            }
+        }
+        return hardcodedIsGiven;
     }
 
     private int[][] rearrange(int[][] grid) {

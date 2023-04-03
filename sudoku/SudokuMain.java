@@ -3,8 +3,10 @@ package sudoku;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Console;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  * The main Sudoku program
@@ -18,10 +20,14 @@ public class SudokuMain extends JFrame {
     GameBoardPanel board = new GameBoardPanel();
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem resetGame = new JMenuItem("Reset Game");
+    JMenuItem beginner = new JMenuItem("beginner");
+    JMenuItem intermediate = new JMenuItem("intermediate");
+    JMenuItem expert = new JMenuItem("expert");
     static JMenuBar menuBar;
     JPanel bottomBar = new JPanel(new GridLayout(1, 0));
     public static JLabel score = new JLabel("Score: 0");
     public static JLabel time = new JLabel("Time: 0");
+    public static JLabel remaining = new JLabel("Remaining: 0");
 
     // Constructor
     public SudokuMain() {
@@ -31,6 +37,7 @@ public class SudokuMain extends JFrame {
         cp.add(board, BorderLayout.CENTER);
         bottomBar.add(time);
         bottomBar.add(score);
+        bottomBar.add(remaining);
         this.add(bottomBar, BorderLayout.SOUTH);
 
         generateMenuBar();
@@ -51,8 +58,13 @@ public class SudokuMain extends JFrame {
         // File Menu
         JMenu fileMenu = new JMenu("File");
         JMenuItem exit = new JMenuItem("Exit");
+        JMenu level = new JMenu("Level");
+        level.add(beginner);
+        level.add(intermediate);
+        level.add(expert);
         fileMenu.add(newGame);
         fileMenu.add(resetGame);
+        fileMenu.add(level);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
 
@@ -80,6 +92,24 @@ public class SudokuMain extends JFrame {
                 board.resetGame();
             }
         });
+
+        beginner.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeDifficulty(1);
+            }
+        });
+
+        intermediate.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeDifficulty(2);
+            }
+        });
+
+        expert.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                changeDifficulty(3);
+            }
+        });
     }
 
     /** The entry main() entry method */
@@ -98,4 +128,9 @@ public class SudokuMain extends JFrame {
         });
     }
 
+    private void changeDifficulty(int level) {
+        board.setPuzzleDifficulty(level);
+        board.newGame();
+        System.out.println("level difficulty changed to: " + level);
+    }
 }
