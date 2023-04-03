@@ -39,7 +39,11 @@ public class Puzzle {
         for (int row = 0; row < GameBoardPanel.GRID_SIZE; ++row) {
             for (int col = 0; col < GameBoardPanel.GRID_SIZE; ++col) {
                 numbers[row][col] = revisedGrid[row][col];
+
+                System.out.print(numbers[row][col]);
             }
+
+            System.out.println("");
         }
 
         // Need to use input parameter cellsToGuess!

@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -20,6 +23,7 @@ public class SudokuMain extends JFrame {
     GameBoardPanel board = new GameBoardPanel();
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem resetGame = new JMenuItem("Reset Game");
+    JMenuItem musicToggle = new JMenuItem("Music Toggle");
     JMenuItem beginner = new JMenuItem("beginner");
     JMenuItem intermediate = new JMenuItem("intermediate");
     JMenuItem expert = new JMenuItem("expert");
@@ -28,6 +32,7 @@ public class SudokuMain extends JFrame {
     public static JLabel score = new JLabel("Score: 0");
     public static JLabel time = new JLabel("Time: 0");
     public static JLabel remaining = new JLabel("Remaining: 0");
+    private static Clip clip;
 
     // Constructor
     public SudokuMain() {
@@ -45,6 +50,7 @@ public class SudokuMain extends JFrame {
 
         // Initialize the game board to start the game
         board.newGame();
+        playSound();
 
         pack(); // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // to handle window-closing
@@ -65,6 +71,7 @@ public class SudokuMain extends JFrame {
         fileMenu.add(newGame);
         fileMenu.add(resetGame);
         fileMenu.add(level);
+        fileMenu.add(musicToggle);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
 
@@ -110,6 +117,16 @@ public class SudokuMain extends JFrame {
                 changeDifficulty(3);
             }
         });
+
+        musicToggle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (clip.isRunning()) {
+                    clip.stop();
+                } else {
+                    clip.start();
+                }
+            }
+        });
     }
 
     /** The entry main() entry method */
@@ -132,5 +149,23 @@ public class SudokuMain extends JFrame {
         board.setPuzzleDifficulty(level);
         board.newGame();
         System.out.println("level difficulty changed to: " + level);
+    }
+
+    public static synchronized void playSound() {
+        new Thread(new Runnable() {
+            // The wrapper thread is unnecessary, unless it blocks on the
+            // Clip finishing; see comments.
+            public void run() {
+                try {
+                    clip = AudioSystem.getClip();
+                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                            SudokuMain.class.getResourceAsStream("./Music/love-mellow-piano-143300.wav"));
+                    clip.open(inputStream);
+                    clip.start();
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        }).start();
     }
 }

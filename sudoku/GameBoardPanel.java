@@ -33,6 +33,8 @@ public class GameBoardPanel extends JPanel {
     private int score = 0;
     private int difficulty = 1;
     private int blanksLeft;
+    private Duration ElapsedTime;
+    private Timer stepTimer;
 
     /** Constructor */
     public GameBoardPanel() {
@@ -41,7 +43,11 @@ public class GameBoardPanel extends JPanel {
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
-                cells[row][col] = new Cell(row, col);
+                if (puzzle.isGiven[row][col]) {
+                    cells[row][col] = new Cell(row, col, CellStatus.GIVEN);
+                } else {
+                    cells[row][col] = new Cell(row, col, CellStatus.TO_GUESS);
+                }
                 super.add(cells[row][col]); // JPanel
             }
         }
@@ -76,13 +82,13 @@ public class GameBoardPanel extends JPanel {
             }
         }
         Instant instantStart = Instant.now();
-        Timer stepTimer = new Timer(STEP_IN_MSEC, e -> stepGame(instantStart));
+        stepTimer = new Timer(STEP_IN_MSEC, e -> stepGame(instantStart));
         stepTimer.start();
     }
 
     private void stepGame(Instant instantStart) {
         Instant instantStop = Instant.now();
-        Duration ElapsedTime = Duration.between(instantStart, instantStop);
+        ElapsedTime = Duration.between(instantStart, instantStop);
         SudokuMain.time.setText("Time: " + ElapsedTime.toSeconds());
     }
 
@@ -116,29 +122,35 @@ public class GameBoardPanel extends JPanel {
             // Get a reference of the JTextField that triggers this action event
             Cell sourceCell = (Cell) e.getSource();
             char in = e.getKeyChar();
-            if (Character.isDigit(in) || Character.getNumericValue(in) == -1) {
+            if (Character.isDigit(in)
+                    || Character.getNumericValue(in) == -1) {
                 // Retrieve the int entered
                 int numberIn = Character.getNumericValue(in);
 
                 // For debugging
                 System.out.println("You entered " + numberIn);
+                System.out.println("cellnum: " + sourceCell.number);
+                if (sourceCell.status != CellStatus.GIVEN) {
+                    // check if number entered is correct or wrong
+                    if (numberIn == sourceCell.number) {
+                        sourceCell.status = CellStatus.CORRECT_GUESS;
+                        System.out.println(isSolved());
+                        score += 100;
+                        blanksLeft--;
+                        SudokuMain.remaining.setText("Remaining: " + blanksLeft);
+                    } else {
+                        sourceCell.status = CellStatus.WRONG_GUESS;
+                    }
+                    sourceCell.paint(); // re-paint this cell based on its status
+                    SudokuMain.score.setText("Score: " + score);
 
-                // check if number entered is correct or wrong
-                if (numberIn == sourceCell.number) {
-                    sourceCell.status = CellStatus.CORRECT_GUESS;
-                    System.out.println(isSolved());
-                    score += 100;
-                    blanksLeft--;
-                    SudokuMain.remaining.setText("Remaining: " + blanksLeft);
-                } else {
-                    sourceCell.status = CellStatus.WRONG_GUESS;
-                }
-                sourceCell.paint(); // re-paint this cell based on its status
-                SudokuMain.score.setText("Score: " + score);
+                    if (isSolved()) {
+                        System.out.println("solved");
+                        stepTimer.stop();
+                        displayPopup("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
+                                + "seconds");
 
-                if (isSolved()) {
-                    System.out.println("solved");
-                    displayPopup("Congratulation! You WON!");
+                    }
                 }
 
             } else {

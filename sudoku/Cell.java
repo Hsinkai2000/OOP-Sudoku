@@ -31,10 +31,11 @@ public class Cell extends JTextField {
     CellStatus status;
 
     /** Constructor */
-    public Cell(int row, int col) {
+    public Cell(int row, int col, CellStatus status) {
         super(); // JTextField
         this.row = row;
         this.col = col;
+        this.status = status;
         // Inherited from JTextField: Beautify all the cells once for all
         super.setHorizontalAlignment(JTextField.CENTER);
         super.setFont(FONT_NUMBERS);
