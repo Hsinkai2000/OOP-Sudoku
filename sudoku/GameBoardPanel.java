@@ -146,10 +146,11 @@ public class GameBoardPanel extends JPanel {
 
                     if (isSolved()) {
                         System.out.println("solved");
+                        WelcomePage.addToScoreboard(score);
                         stepTimer.stop();
                         displayPopup("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
                                 + "seconds");
-
+                        
                     }
                 }
 
