@@ -14,10 +14,10 @@ public class Cell extends JTextField {
 
     // Define named constants for JTextField's colors and fonts
     // to be chosen based on CellStatus
-    public static final Color BG_GIVEN = new Color(240, 240, 240); // RGB
-    public static final Color FG_GIVEN = Color.BLACK;
-    public static final Color FG_NOT_GIVEN = Color.GRAY;
-    public static final Color BG_TO_GUESS = Color.YELLOW;
+    public static final Color BG_GIVEN = new Color(215,32,35,0); // RGB
+    public static final Color FG_GIVEN = Color.red;
+    public static final Color FG_NOT_GIVEN = Color.GREEN;
+    public static final Color BG_TO_GUESS = new Color(215,32,35,0);
     public static final Color BG_CORRECT_GUESS = new Color(0, 216, 0);
     public static final Color BG_WRONG_GUESS = new Color(216, 0, 0);
     public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
@@ -39,12 +39,15 @@ public class Cell extends JTextField {
         // Inherited from JTextField: Beautify all the cells once for all
         super.setHorizontalAlignment(JTextField.CENTER);
         super.setFont(FONT_NUMBERS);
+        super.setOpaque(false);
     }
 
     /** Reset this cell for a new game, given the puzzle number and isGiven */
     public void newGame(int number, boolean isGiven) {
         this.number = number;
         status = isGiven ? CellStatus.GIVEN : CellStatus.TO_GUESS;
+        
+        this.setOpaque(false);
         paint(); // paint itself
     }
 

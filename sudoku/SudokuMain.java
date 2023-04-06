@@ -34,10 +34,10 @@ public class SudokuMain extends JFrame {
     public static JLabel time = new JLabel("Time: 0");
     public static JLabel remaining = new JLabel("Remaining: 0");
     private static Clip clip;
-
+    private static Container cp ;
     // Constructor
     public SudokuMain() {
-        Container cp = getContentPane();
+        cp = getContentPane();
         cp.setLayout(new BorderLayout());
 
         cp.add(board, BorderLayout.CENTER);
@@ -48,7 +48,7 @@ public class SudokuMain extends JFrame {
         generateMenuBar();
         this.setJMenuBar(menuBar);
         // Initialize the game board to start the game
-        board.newGame();
+        board.newGame(cp);
         // this.setBackground(Color.BLACK); // set background color here
         playSound();
         setLocationRelativeTo(null);
@@ -90,7 +90,7 @@ public class SudokuMain extends JFrame {
     private void menuOnclick() {
         newGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                board.newGame();
+                board.newGame(cp);
             }
         });
 
@@ -136,8 +136,6 @@ public class SudokuMain extends JFrame {
             @Override
             public void run() {
                 SudokuMain main = new SudokuMain();
-                ImagePanel backgroundPanel = new ImagePanel("./images/background-image.jpg");
-                frame.setContentPane(backgroundPanel);
                 frame.setContentPane(main); // main JPanel as content pane
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
@@ -149,7 +147,7 @@ public class SudokuMain extends JFrame {
 
     private void changeDifficulty(int level) {
         board.setPuzzleDifficulty(level);
-        board.newGame();
+        board.newGame(cp);
         System.out.println("level difficulty changed to: " + level);
     }
 

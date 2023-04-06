@@ -30,14 +30,14 @@ public class GameBoardPanel extends JPanel {
 
     public static int STEPS_PER_SEC = 6;
     public static int STEP_IN_MSEC = 1000 / STEPS_PER_SEC;
-
+    private Cell sourceCell;
     
     private Line2D testline = new Line2D.Double(10,10,10,30);
 
 
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
-    private Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
+    public Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
     /** It also contains a Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
     private int score = 0;
@@ -51,11 +51,10 @@ public class GameBoardPanel extends JPanel {
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // JPanel
-
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
-                if (puzzle.isGiven[row][col]) {
+                if (puzzle.isGiven[row][col] == true) {
                     cells[row][col] = new Cell(row, col, CellStatus.GIVEN);
                 } else {
                     cells[row][col] = new Cell(row, col, CellStatus.TO_GUESS);
@@ -64,15 +63,6 @@ public class GameBoardPanel extends JPanel {
             }
         }
 
-        CellKeyListener listener = new CellKeyListener();
-
-        for (int row = 0; row < GRID_SIZE; ++row) {
-            for (int col = 0; col < GRID_SIZE; ++col) {
-                if (cells[row][col].isEditable()) {
-                    cells[row][col].addKeyListener(listener); // For all editable rows and cols
-                }
-            }
-        }
 
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     }
@@ -81,18 +71,40 @@ public class GameBoardPanel extends JPanel {
      * Generate a new puzzle; and reset the gameboard of cells based on the puzzle.
      * You can call this method to start a new game.
      */
-    public void newGame() {
+    public void newGame(Container cp) {
         // Generate a new puzzle
         blanksLeft = 3 * difficulty;
         SudokuMain.remaining.setText("Remaining: " + blanksLeft);
         puzzle.newPuzzle(blanksLeft);
 
+        cp.setFocusTraversalPolicy(new SudokuFocusTraversalPolicy(cells));
         // Initialize all the 9x9 cells, based on the puzzle.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
             }
+        }        
+
+        
+        CellKeyListener listener = new CellKeyListener();
+        int count=1;
+        for (int row = 0; row < GRID_SIZE; ++row) {
+            for (int col = 0; col < GRID_SIZE; ++col) {
+                if (cells[row][col].status==CellStatus.TO_GUESS && cells[row][col].isEditable()) {
+                    cells[row][col].addKeyListener(listener); // For all editable rows and cols
+                    System.out.println("to guess: " + cells[row][col].isEditable());
+                    
+                    if(count ==1){
+                        sourceCell = cells[row][col];
+                        System.out.println("sourceCell: " + sourceCell.number);
+                        count++;
+                    }
+                }
+            }
         }
+        this.setFocusCycleRoot(true);
+        this.setFocusTraversalPolicy(new SudokuFocusTraversalPolicy(cells));
+
         Instant instantStart = Instant.now();
         stepTimer = new Timer(STEP_IN_MSEC, e -> stepGame(instantStart));
         stepTimer.start();
@@ -102,6 +114,7 @@ public class GameBoardPanel extends JPanel {
         Instant instantStop = Instant.now();
         ElapsedTime = Duration.between(instantStart, instantStop);
         SudokuMain.time.setText("Time: " + ElapsedTime.toSeconds());
+
     }
 
     public void resetGame() {
@@ -128,11 +141,12 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
+
     private class CellKeyListener implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
             // Get a reference of the JTextField that triggers this action event
-            Cell sourceCell = (Cell) e.getSource();
+            sourceCell = (Cell) e.getSource();
             char in = e.getKeyChar();
             if (Character.isDigit(in)
                     || Character.getNumericValue(in) == -1) {
@@ -204,7 +218,7 @@ public class GameBoardPanel extends JPanel {
     }
 
     public Image loadImage(){
-        URL imgUrl = getClass().getResource("./background-image.png");
+        URL imgUrl = getClass().getResource("./background-image-copy.png");
       if (imgUrl == null) {
          System.err.println("Couldn't find file: ");
       } else {
@@ -217,3 +231,4 @@ public class GameBoardPanel extends JPanel {
       return img;
     }
 }
+

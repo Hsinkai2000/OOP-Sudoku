@@ -40,6 +40,13 @@ public class WelcomePage extends JFrame {
         
         nameList.add("jonathan");
         pointList.add(22);
+        nameList.add("jonathan");
+        pointList.add(22);
+        nameList.add("jonathan");
+        pointList.add(22);
+        nameList.add("jonathan");
+        pointList.add(22);
+        
         scoreboardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String message="Scoreboard is not implemented yet.";
