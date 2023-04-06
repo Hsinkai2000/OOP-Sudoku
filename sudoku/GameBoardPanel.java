@@ -5,6 +5,11 @@ import java.awt.event.*;
 import java.time.Duration;
 import java.time.Instant;
 
+import java.awt.geom.Line2D;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GameBoardPanel extends JPanel {
@@ -25,6 +30,11 @@ public class GameBoardPanel extends JPanel {
 
     public static int STEPS_PER_SEC = 6;
     public static int STEP_IN_MSEC = 1000 / STEPS_PER_SEC;
+
+    
+    private Line2D testline = new Line2D.Double(10,10,10,30);
+
+
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
     private Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
@@ -35,6 +45,8 @@ public class GameBoardPanel extends JPanel {
     private int blanksLeft;
     private Duration ElapsedTime;
     private Timer stepTimer;
+    private Image img;
+    
 
     /** Constructor */
     public GameBoardPanel() {
@@ -180,5 +192,28 @@ public class GameBoardPanel extends JPanel {
 
     public void setPuzzleDifficulty(int level) {
         this.difficulty = level;
+    }
+
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponents(g);
+        setBackground(Color.DARK_GRAY);
+        img = loadImage();
+        g.drawImage(img, 0, 0, null);
+    }
+
+    public Image loadImage(){
+        URL imgUrl = getClass().getResource("./background-image.png");
+      if (imgUrl == null) {
+         System.err.println("Couldn't find file: ");
+      } else {
+         try {
+            img = ImageIO.read(imgUrl);
+         } catch (IOException ex) {
+            ex.printStackTrace();
+         }
+      }
+      return img;
     }
 }

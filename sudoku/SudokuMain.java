@@ -19,6 +19,7 @@ public class SudokuMain extends JFrame {
     /** App title */
     public static final String TITLE = "Sudoku";
     public static JFrame frame = new JFrame(TITLE);
+
     // private variables
     GameBoardPanel board = new GameBoardPanel();
     JMenuItem newGame = new JMenuItem("New Game");
@@ -44,14 +45,13 @@ public class SudokuMain extends JFrame {
         bottomBar.add(score);
         bottomBar.add(remaining);
         this.add(bottomBar, BorderLayout.SOUTH);
-
         generateMenuBar();
         this.setJMenuBar(menuBar);
-
         // Initialize the game board to start the game
         board.newGame();
+        // this.setBackground(Color.BLACK); // set background color here
         playSound();
-
+        setLocationRelativeTo(null);
         pack(); // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // to handle window-closing
         setTitle("Sudoku");
@@ -136,6 +136,8 @@ public class SudokuMain extends JFrame {
             @Override
             public void run() {
                 SudokuMain main = new SudokuMain();
+                ImagePanel backgroundPanel = new ImagePanel("./images/background-image.jpg");
+                frame.setContentPane(backgroundPanel);
                 frame.setContentPane(main); // main JPanel as content pane
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();

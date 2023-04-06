@@ -62,6 +62,8 @@ public class WelcomePage extends JFrame {
         add(welcomePanel);
         setVisible(true);
         pack();
+
+        setLocationRelativeTo(null);
     }
 
     public static void addToScoreboard(int points){
