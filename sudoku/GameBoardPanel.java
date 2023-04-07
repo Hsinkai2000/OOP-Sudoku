@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import java.awt.geom.Line2D;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
@@ -31,9 +32,8 @@ public class GameBoardPanel extends JPanel {
     public static int STEPS_PER_SEC = 6;
     public static int STEP_IN_MSEC = 1000 / STEPS_PER_SEC;
     private Cell sourceCell;
-    
-    private Line2D testline = new Line2D.Double(10,10,10,30);
 
+    private Line2D testline = new Line2D.Double(10, 10, 10, 30);
 
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
@@ -46,11 +46,11 @@ public class GameBoardPanel extends JPanel {
     private Duration ElapsedTime;
     private Timer stepTimer;
     private Image img;
-    
 
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // JPanel
+
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
@@ -62,7 +62,6 @@ public class GameBoardPanel extends JPanel {
                 super.add(cells[row][col]); // JPanel
             }
         }
-
 
         super.setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     }
@@ -83,18 +82,17 @@ public class GameBoardPanel extends JPanel {
             for (int col = 0; col < GRID_SIZE; ++col) {
                 cells[row][col].newGame(puzzle.numbers[row][col], puzzle.isGiven[row][col]);
             }
-        }        
+        }
 
-        
         CellKeyListener listener = new CellKeyListener();
-        int count=1;
+        int count = 1;
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
-                if (cells[row][col].status==CellStatus.TO_GUESS && cells[row][col].isEditable()) {
+                if (cells[row][col].status == CellStatus.TO_GUESS && cells[row][col].isEditable()) {
                     cells[row][col].addKeyListener(listener); // For all editable rows and cols
                     System.out.println("to guess: " + cells[row][col].isEditable());
-                    
-                    if(count ==1){
+
+                    if (count == 1) {
                         sourceCell = cells[row][col];
                         System.out.println("sourceCell: " + sourceCell.number);
                         count++;
@@ -141,7 +139,6 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
-
     private class CellKeyListener implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -176,7 +173,7 @@ public class GameBoardPanel extends JPanel {
                         stepTimer.stop();
                         displayPopup("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
                                 + "seconds");
-                        
+
                     }
                 }
 
@@ -208,27 +205,28 @@ public class GameBoardPanel extends JPanel {
         this.difficulty = level;
     }
 
-    
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponents(g);
-        setBackground(Color.DARK_GRAY);
+        super.paintComponent(g);
         img = loadImage();
-        g.drawImage(img, 0, 0, null);
+        if (img != null) {
+            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 
-    public Image loadImage(){
-        URL imgUrl = getClass().getResource("./background-image-copy.png");
-      if (imgUrl == null) {
-         System.err.println("Couldn't find file: ");
-      } else {
-         try {
-            img = ImageIO.read(imgUrl);
-         } catch (IOException ex) {
-            ex.printStackTrace();
-         }
-      }
-      return img;
+    public Image loadImage() {
+        // URL imgUrl = getClass().getResource("./images/background-image-copy.png");
+        URL imgUrl = getClass().getResource("./images/background-image2.png");
+        if (imgUrl == null) {
+            System.err.println("Couldn't find file: ");
+        } else {
+            try {
+                img = ImageIO.read(imgUrl);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return img;
     }
+
 }
-

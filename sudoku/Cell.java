@@ -2,6 +2,11 @@ package sudoku;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 import javax.swing.JTextField;
 
 /**
@@ -11,13 +16,23 @@ import javax.swing.JTextField;
  */
 public class Cell extends JTextField {
     private static final long serialVersionUID = 1L; // to prevent serial warning
-
+    Color[] colors = new Color[]{
+        new Color(227, 52, 47), 
+        new Color(246, 153, 63), 
+        new Color(195, 137, 200), 
+        new Color(56, 193, 114), 
+        new Color(77, 192, 181), 
+        new Color(52, 144, 220), 
+        new Color(101, 116, 205), 
+        new Color(149, 97, 226), 
+        new Color(246, 109, 155)
+    };
     // Define named constants for JTextField's colors and fonts
     // to be chosen based on CellStatus
-    public static final Color BG_GIVEN = new Color(215,32,35,0); // RGB
+    public static final Color BG_GIVEN = new Color(215, 32, 35, 0); // RGB
     public static final Color FG_GIVEN = Color.red;
     public static final Color FG_NOT_GIVEN = Color.GREEN;
-    public static final Color BG_TO_GUESS = new Color(215,32,35,0);
+    public static final Color BG_TO_GUESS = new Color(215, 32, 35, 0);
     public static final Color BG_CORRECT_GUESS = new Color(0, 216, 0);
     public static final Color BG_WRONG_GUESS = new Color(216, 0, 0);
     public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
@@ -37,8 +52,23 @@ public class Cell extends JTextField {
         this.col = col;
         this.status = status;
         // Inherited from JTextField: Beautify all the cells once for all
+        // loadFont();
+        
+        // URL fontUrl = getClass().getResource("./Font/Alice-Smile.ttf");
+        URL fontUrl = getClass().getResource("./Font/gemstone/Gemstone.ttf");
+        Font customFont;
+        try {
+            customFont = Font.createFont(Font.PLAIN, fontUrl.openStream()).deriveFont(25f);
+            
+            super.setFont(customFont);
+        } catch (FontFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         super.setHorizontalAlignment(JTextField.CENTER);
-        super.setFont(FONT_NUMBERS);
         super.setOpaque(false);
     }
 
@@ -46,8 +76,9 @@ public class Cell extends JTextField {
     public void newGame(int number, boolean isGiven) {
         this.number = number;
         status = isGiven ? CellStatus.GIVEN : CellStatus.TO_GUESS;
-        
+
         this.setOpaque(false);
+        setnumberColour();
         paint(); // paint itself
     }
 
@@ -58,7 +89,7 @@ public class Cell extends JTextField {
             super.setText(number + "");
             super.setEditable(false);
             super.setBackground(BG_GIVEN);
-            super.setForeground(FG_GIVEN);
+            // super.setForeground(FG_GIVEN);
         } else if (status == CellStatus.TO_GUESS) {
             // Inherited from JTextField: Set display properties
             super.setText("");
@@ -71,4 +102,40 @@ public class Cell extends JTextField {
             super.setBackground(BG_WRONG_GUESS);
         }
     }
+
+    private void setnumberColour(){
+        switch (this.number) {
+            case 1:
+                super.setForeground(colors[0]);
+                break;
+            case 2:
+                super.setForeground(colors[1]);
+                break;
+            case 3:
+                super.setForeground(colors[2]);
+                break;
+            case 4:
+                super.setForeground(colors[3]);
+                break;
+            case 5:
+                super.setForeground(colors[4]);
+                break;
+            case 6:
+                super.setForeground(colors[5]);
+                break;
+            case 7:
+                super.setForeground(colors[6]);
+                break;
+            case 8:
+                super.setForeground(colors[7]);
+                break;
+            case 9:
+                super.setForeground(colors[8]);
+                break;
+            default:
+                break;
+        }
+        
+    }
+
 }
