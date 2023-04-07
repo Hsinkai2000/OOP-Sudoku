@@ -5,6 +5,6 @@ public enum CellStatus {
    TO_GUESS,
    CORRECT_GUESS,
    WRONG_GUESS,
-   PENDING
-
+   PENDING,
+   WRONG_HINT
 }
