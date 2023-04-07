@@ -139,6 +139,19 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
+    public void applyPending(int numberIn){
+        for (int row = 0; row < GRID_SIZE; ++row) {
+            for (int col = 0; col < GRID_SIZE; ++col) {
+                if(puzzle.numbers[row][col] == numberIn){
+                    if(cells[row][col].status == CellStatus.GIVEN){
+                        cells[row][col].status = CellStatus.PENDING;
+                        cells[row][col].paint();
+                    }
+                }
+            }
+        }
+    }
+
     private class CellKeyListener implements KeyListener {
         @Override
         public void keyTyped(KeyEvent e) {
@@ -161,6 +174,7 @@ public class GameBoardPanel extends JPanel {
                         score += 100;
                         blanksLeft--;
                         SudokuMain.remaining.setText("Remaining: " + blanksLeft);
+                        applyPending(numberIn);
                     } else {
                         sourceCell.status = CellStatus.WRONG_GUESS;
                     }
