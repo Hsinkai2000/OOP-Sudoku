@@ -25,8 +25,6 @@ public class GameBoardPanel extends JPanel {
     public static final int BOARD_HEIGHT = CELL_SIZE * GRID_SIZE;
     // Board width/height in pixels
 
-
-
     public static final Color COLOR_PIT = Color.LIGHT_GRAY;
     public static final Color COLOR_GAMEOVER = Color.GREEN;
     public static final Font FONT_GAMEOVER = new Font("Verdana", Font.BOLD, 30);
@@ -48,13 +46,12 @@ public class GameBoardPanel extends JPanel {
     private Duration ElapsedTime;
     private Timer stepTimer;
     private Image img;
+    public boolean haveAnime = false;
 
-    private final Color BG_COLOR= new Color(253, 243, 212);
-    private final Color darkerColor = new Color(98, 31, 31);
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // JPanel
-        super.setBackground(BG_COLOR);
+
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
@@ -365,6 +362,11 @@ public class GameBoardPanel extends JPanel {
                 reverseHighlight();
                 if (sourceCell.status != CellStatus.GIVEN) {
                     // check if number entered is correct or wrong
+                    if (numberIn == 0){
+                        haveAnime = true;
+                        System.out.println("0 has been pressed!");
+
+                    }
                     if (numberIn == sourceCell.number) {
                         sourceCell.status = CellStatus.CORRECT_GUESS;
                         System.out.println(isSolved());
@@ -424,13 +426,31 @@ public class GameBoardPanel extends JPanel {
         difficulty = level;
     }
 
+    // @Override
+    // public void paintComponent(Graphics g) {
+    //     super.paintComponent(g);
+
+    //     img = loadImage();
+    //     if (img != null) {
+    //         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    //     }
+    // }
+
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g){
+        // super.paintComponent(g);
         super.paintComponent(g);
-        img = loadImage();
+
+        if (haveAnime){
+            img =loadAnimeImage();
+        } else {
+            img =loadImage();
+        }
+        // img = loadAnimeImage();
         if (img != null) {
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
         }
+        System.out.println("Reached paint");
     }
 
     public Image loadImage() {
@@ -448,4 +468,35 @@ public class GameBoardPanel extends JPanel {
         return img;
     }
 
+    
+
+    public Image loadAnimeImage() {
+        URL imgUrl = getClass().getResource("./images/background-image-copy.png");
+        if (imgUrl == null) {
+            System.err.println("Couldn't find file: ");
+        } else {
+            try {
+                img = ImageIO.read(imgUrl);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return img;
+    }
+
+    // public void callAnime(){
+    //     paintComponent(g);
+    //     img = loadAnimeImage();
+    
+    // }
+
+    // public void repaintComponent(Graphics g){
+    //     super.paintComponent(g);
+
+    //     img = loadAnimeImage();
+    //     if (img != null) {
+    //         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    //     }
+    // }
 }
