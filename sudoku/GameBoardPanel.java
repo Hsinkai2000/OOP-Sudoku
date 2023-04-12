@@ -139,6 +139,17 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
+    public void reverseHighlight(){
+        for (int row = 0; row < GRID_SIZE; ++row) {
+            for (int col = 0; col < GRID_SIZE; ++col) {
+                if (cells[row][col].status == CellStatus.WRONG_HINT || cells[row][col].status == CellStatus.PENDING){
+                    cells[row][col].status = CellStatus.GIVEN;
+                    cells[row][col].paint();
+                }
+            }
+        }
+    }
+
     public void applyPending(int numberIn){
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
@@ -346,6 +357,7 @@ public class GameBoardPanel extends JPanel {
                 // For debugging
                 System.out.println("You entered " + numberIn);
                 System.out.println("cellnum: " + sourceCell.number);
+                reverseHighlight();
                 if (sourceCell.status != CellStatus.GIVEN) {
                     // check if number entered is correct or wrong
                     if (numberIn == sourceCell.number) {
