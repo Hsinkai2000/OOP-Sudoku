@@ -92,6 +92,7 @@ public class Cell extends JTextField {
             super.setEditable(false);
             super.setBackground(BG_GIVEN);
             // super.setForeground(FG_GIVEN);
+            super.setForeground(colors[number-1]);
         } else if (status == CellStatus.TO_GUESS) {
             // Inherited from JTextField: Set display properties
             super.setText("");
@@ -100,12 +101,15 @@ public class Cell extends JTextField {
             super.setForeground(FG_NOT_GIVEN);
         } else if (status == CellStatus.CORRECT_GUESS) { // from TO_GUESS
             super.setBackground(BG_CORRECT_GUESS);
+            super.setForeground(colors[number-1]);
         } else if (status == CellStatus.WRONG_GUESS) { // from TO_GUESS
             super.setBackground(BG_WRONG_GUESS);
         } else if (status == CellStatus.PENDING){
             super.setBackground(BG_PENDING);
+            super.setForeground(Color.WHITE);
         } else if (status == CellStatus.WRONG_HINT){
             super.setBackground(BG_WRONG_HINT);
+            super.setForeground(Color.WHITE);
         }
     }
 

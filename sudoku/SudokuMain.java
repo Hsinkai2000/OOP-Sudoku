@@ -8,6 +8,7 @@ import java.io.Console;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.border.Border;
 
@@ -35,6 +36,10 @@ public class SudokuMain extends JFrame {
     public static JLabel remaining = new JLabel("Remaining: 0");
     private static Clip clip;
     private static Container cp ;
+    
+    private final Color BG_COLOR= new Color(253, 243, 212);
+    private final Color darkerColor = new Color(98, 31, 31);
+
     // Constructor
     public SudokuMain() {
         cp = getContentPane();
@@ -49,7 +54,6 @@ public class SudokuMain extends JFrame {
         this.setJMenuBar(menuBar);
         // Initialize the game board to start the game
         board.newGame(cp);
-        // this.setBackground(Color.BLACK); // set background color here
         playSound();
         setLocationRelativeTo(null);
         pack(); // Pack the UI components, instead of using setSize()
@@ -161,6 +165,10 @@ public class SudokuMain extends JFrame {
                     AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                             SudokuMain.class.getResourceAsStream("./Music/love-mellow-piano-143300.wav"));
                     clip.open(inputStream);
+                    // Set the volume
+                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                    gainControl.setValue(-10.0f); 
+                    
                     clip.start();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());

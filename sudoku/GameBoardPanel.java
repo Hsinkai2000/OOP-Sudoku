@@ -25,6 +25,8 @@ public class GameBoardPanel extends JPanel {
     public static final int BOARD_HEIGHT = CELL_SIZE * GRID_SIZE;
     // Board width/height in pixels
 
+
+
     public static final Color COLOR_PIT = Color.LIGHT_GRAY;
     public static final Color COLOR_GAMEOVER = Color.GREEN;
     public static final Font FONT_GAMEOVER = new Font("Verdana", Font.BOLD, 30);
@@ -47,10 +49,12 @@ public class GameBoardPanel extends JPanel {
     private Timer stepTimer;
     private Image img;
 
+    private final Color BG_COLOR= new Color(253, 243, 212);
+    private final Color darkerColor = new Color(98, 31, 31);
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // JPanel
-
+        super.setBackground(BG_COLOR);
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
