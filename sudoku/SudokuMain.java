@@ -12,6 +12,7 @@ import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicProgressBarUI;
 
 /**
  * The main Sudoku program
@@ -32,12 +33,14 @@ public class SudokuMain extends JFrame {
     JMenuItem intermediate = new JMenuItem("intermediate");
     JMenuItem expert = new JMenuItem("expert");
     static JMenuBar menuBar;
-    JPanel bottomBar = new JPanel(new GridLayout(1, 0));
+    JPanel bottomBar = new JPanel(new GridLayout(2, 0));
     public static JLabel score = new JLabel("Score: 0");
     public static JLabel time = new JLabel("Time: 0");
     public static JLabel remaining = new JLabel("Remaining: 0");
     private static Clip clip;
     private static Container cp;
+    static JProgressBar progressBar;
+    private static JPanel bottomPanel = new JPanel(new GridLayout(1,0));
 
     private final static Color BG_COLOR = new Color(253, 243, 212);
     private final Color darkerColor = new Color(98, 31, 31);
@@ -48,9 +51,16 @@ public class SudokuMain extends JFrame {
         cp.setLayout(new BorderLayout());
         cp.add(board, BorderLayout.CENTER);
 
-        bottomBar.add(time);
-        bottomBar.add(score);
-        bottomBar.add(remaining);
+        progressBar = new JProgressBar(0,100);
+        progressBar.setStringPainted(true);
+        progressBar.setValue(0);
+        progressBar.setForeground(darkerColor);
+        progressBar.setBackground(BG_COLOR);
+        bottomBar.add(progressBar);
+        bottomPanel.add(time);
+        bottomPanel.add(score);
+        bottomPanel.add(remaining);
+        bottomBar.add(bottomPanel);
         bottomBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(bottomBar, BorderLayout.SOUTH);
         generateMenuBar();

@@ -117,6 +117,11 @@ public class GameBoardPanel extends JPanel {
         Instant instantStop = Instant.now();
         ElapsedTime = Duration.between(instantStart, instantStop);
         SudokuMain.time.setText("Time: " + ElapsedTime.toSeconds());
+        float minus = ((float)getRemaining()/((float)difficulty*3))*100;
+        SudokuMain.progressBar.setValue(100-(int)minus);
+        System.out.println("remaining = " + getRemaining());
+        System.out.println("difficulty = " + (difficulty*3));
+        System.out.println("minus = " + minus);
 
     }
 
@@ -455,7 +460,9 @@ public class GameBoardPanel extends JPanel {
     public static void setPuzzleDifficulty(int level) {
         difficulty = level;
     }
-
+    public int getRemaining(){
+        return blanksLeft;
+    }
     @Override
     public void paintComponent(Graphics g) {
         // super.paintComponent(g);
