@@ -21,8 +21,8 @@ public class WelcomePage extends JFrame {
     private static JTextField playerNameField;
     private JButton playButton;
     private JButton scoreboardButton;
-    private static ArrayList<String>nameList = new ArrayList<String>();
-    private static ArrayList<Integer>pointList = new ArrayList<Integer>();
+    public static ArrayList<String>nameList = new ArrayList<String>();
+    public static ArrayList<Integer>pointList = new ArrayList<Integer>();
     private JPanel difficultyPanel;
     private JRadioButton beginnerRadioButton;
     private JRadioButton intermediateRadioButton;

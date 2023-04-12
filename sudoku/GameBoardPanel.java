@@ -381,7 +381,7 @@ public class GameBoardPanel extends JPanel {
                         WelcomePage.addToScoreboard(score);
                         stepTimer.stop();
                         displayPopup("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
-                                + "seconds");
+                                + " seconds\n\nLeaderboard:\n");
 
                     }
                 }
@@ -393,12 +393,18 @@ public class GameBoardPanel extends JPanel {
         }
 
         private void displayPopup(String message) {
-            JOptionPane.showMessageDialog(null, message);
+            // JOptionPane.showMessageDialog(null, message);
             // JFrame frame = SudokuMain.frame;
             // JLabel label = new JLabel("Congrats");
             // frame.add(label, BorderLayout.CENTER);
             // System.out.println("Supposed to show");
             // SwingUtilities.updateComponentTreeUI(frame);
+
+            for (int i = 0; i < WelcomePage.nameList.size(); i++) {
+                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
+            }   
+            JOptionPane.showMessageDialog(null, message, "Scoreboard", JOptionPane.INFORMATION_MESSAGE);
+
         }
 
         @Override
