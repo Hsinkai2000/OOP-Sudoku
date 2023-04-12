@@ -13,6 +13,7 @@ import java.sql.Time;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class GameBoardPanel extends JPanel {
     private static final long serialVersionUID = 1L; // to prevent serial warning
@@ -36,6 +37,8 @@ public class GameBoardPanel extends JPanel {
 
     private Line2D testline = new Line2D.Double(10, 10, 10, 30);
 
+    private final static Color BG_COLOR = new Color(253, 243, 212);
+    private final Color darkerColor = new Color(98, 31, 31);
     // Define properties
     /** The game board composes of 9x9 Cells (customized JTextFields) */
     public Cell[][] cells = new Cell[GRID_SIZE][GRID_SIZE];
@@ -53,7 +56,6 @@ public class GameBoardPanel extends JPanel {
     /** Constructor */
     public GameBoardPanel() {
         super.setLayout(new GridLayout(GRID_SIZE, GRID_SIZE)); // JPanel
-
         // Allocate the 2D array of Cell, and added into JPanel.
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
@@ -142,10 +144,10 @@ public class GameBoardPanel extends JPanel {
         return true;
     }
 
-    public void reverseHighlight(){
+    public void reverseHighlight() {
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
-                if (cells[row][col].status == CellStatus.WRONG_HINT || cells[row][col].status == CellStatus.PENDING){
+                if (cells[row][col].status == CellStatus.WRONG_HINT || cells[row][col].status == CellStatus.PENDING) {
                     cells[row][col].status = CellStatus.GIVEN;
                     cells[row][col].paint();
                 }
@@ -153,11 +155,11 @@ public class GameBoardPanel extends JPanel {
         }
     }
 
-    public void applyPending(int numberIn){
+    public void applyPending(int numberIn) {
         for (int row = 0; row < GRID_SIZE; ++row) {
             for (int col = 0; col < GRID_SIZE; ++col) {
-                if(puzzle.numbers[row][col] == numberIn){
-                    if(cells[row][col].status == CellStatus.GIVEN){
+                if (puzzle.numbers[row][col] == numberIn) {
+                    if (cells[row][col].status == CellStatus.GIVEN) {
                         cells[row][col].status = CellStatus.PENDING;
                         cells[row][col].paint();
                     }
@@ -167,181 +169,218 @@ public class GameBoardPanel extends JPanel {
     }
 
     // Check for same row, column and box
-    public void applyWrongHint(int numberIn, int cellRow, int cellCol){
+    public void applyWrongHint(int numberIn, int cellRow, int cellCol) {
         for (int row = 0; row < GRID_SIZE; ++row) {
-            if(puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status == CellStatus.GIVEN){
-            // if(puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status == CellStatus.GIVEN){
-                    cells[row][cellCol].status = CellStatus.WRONG_HINT;
+            if (puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status == CellStatus.GIVEN) {
+                // if(puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status ==
+                // CellStatus.GIVEN){
+                cells[row][cellCol].status = CellStatus.WRONG_HINT;
                 cells[row][cellCol].paint();
             }
         }
         for (int col = 0; col < GRID_SIZE; ++col) {
-            if(puzzle.numbers[cellRow][col] == numberIn && cells[cellRow][col].status == CellStatus.GIVEN){
+            if (puzzle.numbers[cellRow][col] == numberIn && cells[cellRow][col].status == CellStatus.GIVEN) {
                 cells[cellRow][col].status = CellStatus.WRONG_HINT;
                 cells[cellRow][col].paint();
             }
         }
 
         // For col 0,3,6
-        if (cellCol % 3 == 0){
-            if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow+1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+1].paint();
+        if (cellCol % 3 == 0) {
+            if (cellRow % 3 == 0) {
+                if (puzzle.numbers[cellRow + 1][cellCol + 1] == numberIn
+                        && cells[cellRow + 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn && cells[cellRow+2][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol+1].paint();
+                if (puzzle.numbers[cellRow + 2][cellCol + 1] == numberIn
+                        && cells[cellRow + 2][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn && cells[cellRow+1][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+2].paint();
+                if (puzzle.numbers[cellRow + 1][cellCol + 2] == numberIn
+                        && cells[cellRow + 1][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 2].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol+2] == numberIn && cells[cellRow+2][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol+2].paint();
-                }
-            } else if (cellRow % 3 == 1){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow+1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow-1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn && cells[cellRow+1][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+2].paint();
-                }
-                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn && cells[cellRow-1][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+2].paint();
-                }
-            } else {
-                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn && cells[cellRow-2][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow-1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow-2][cellCol+2] == numberIn && cells[cellRow-2][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol+2].paint();
-                }
-                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn && cells[cellRow-1][cellCol+2].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+2].paint();
-                }
-            }
-        } else if (cellCol % 3 == 1){
-            // For col 1,4,7
-            if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow+1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn && cells[cellRow+2][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol+1].paint();
-                }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow+1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-1].paint();
-                }
-                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn && cells[cellRow+2][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol-1].paint();
+                if (puzzle.numbers[cellRow + 2][cellCol + 2] == numberIn
+                        && cells[cellRow + 2][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol + 2].paint();
                 }
             } else if (cellRow % 3 == 1) {
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow+1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol+1].paint();
+                if (puzzle.numbers[cellRow + 1][cellCol + 1] == numberIn
+                        && cells[cellRow + 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow-1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol + 1] == numberIn
+                        && cells[cellRow - 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow+1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow + 1][cellCol + 2] == numberIn
+                        && cells[cellRow + 1][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow-1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol + 2] == numberIn
+                        && cells[cellRow - 1][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 2].paint();
                 }
             } else {
-                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn && cells[cellRow-2][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol+1].paint();
+                if (puzzle.numbers[cellRow - 2][cellCol + 1] == numberIn
+                        && cells[cellRow - 2][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow-1][cellCol+1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol+1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol + 1] == numberIn
+                        && cells[cellRow - 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 1].paint();
                 }
-                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn && cells[cellRow-2][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 2][cellCol + 2] == numberIn
+                        && cells[cellRow - 2][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol + 2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow-1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol + 2] == numberIn
+                        && cells[cellRow - 1][cellCol + 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 2].paint();
+                }
+            }
+        } else if (cellCol % 3 == 1) {
+            // For col 1,4,7
+            if (cellRow % 3 == 0) {
+                if (puzzle.numbers[cellRow + 1][cellCol + 1] == numberIn
+                        && cells[cellRow + 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow + 2][cellCol + 1] == numberIn
+                        && cells[cellRow + 2][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow + 1][cellCol - 1] == numberIn
+                        && cells[cellRow + 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 1].paint();
+                }
+                if (puzzle.numbers[cellRow + 2][cellCol - 1] == numberIn
+                        && cells[cellRow + 2][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol - 1].paint();
+                }
+            } else if (cellRow % 3 == 1) {
+                if (puzzle.numbers[cellRow + 1][cellCol + 1] == numberIn
+                        && cells[cellRow + 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow - 1][cellCol + 1] == numberIn
+                        && cells[cellRow - 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow + 1][cellCol - 1] == numberIn
+                        && cells[cellRow + 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 1].paint();
+                }
+                if (puzzle.numbers[cellRow - 1][cellCol - 1] == numberIn
+                        && cells[cellRow - 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 1].paint();
+                }
+            } else {
+                if (puzzle.numbers[cellRow - 2][cellCol + 1] == numberIn
+                        && cells[cellRow - 2][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow - 1][cellCol + 1] == numberIn
+                        && cells[cellRow - 1][cellCol + 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol + 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol + 1].paint();
+                }
+                if (puzzle.numbers[cellRow - 2][cellCol - 1] == numberIn
+                        && cells[cellRow - 2][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol - 1].paint();
+                }
+                if (puzzle.numbers[cellRow - 1][cellCol - 1] == numberIn
+                        && cells[cellRow - 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 1].paint();
                 }
             }
         } else {
             // For col 2,5,8
-            if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn && cells[cellRow+1][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-2].paint();
+            if (cellRow % 3 == 0) {
+                if (puzzle.numbers[cellRow + 1][cellCol - 2] == numberIn
+                        && cells[cellRow + 1][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol-2] == numberIn && cells[cellRow+2][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol-2].paint();
+                if (puzzle.numbers[cellRow + 2][cellCol - 2] == numberIn
+                        && cells[cellRow + 2][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow+1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow + 1][cellCol - 1] == numberIn
+                        && cells[cellRow + 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn && cells[cellRow+2][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+2][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+2][cellCol-1].paint();
+                if (puzzle.numbers[cellRow + 2][cellCol - 1] == numberIn
+                        && cells[cellRow + 2][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 2][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 2][cellCol - 1].paint();
                 }
-            } else if (cellRow % 3 == 1){
-                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn && cells[cellRow+1][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-2].paint();
+            } else if (cellRow % 3 == 1) {
+                if (puzzle.numbers[cellRow + 1][cellCol - 2] == numberIn
+                        && cells[cellRow + 1][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn && cells[cellRow-1][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-2].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol - 2] == numberIn
+                        && cells[cellRow - 1][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow+1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow+1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow + 1][cellCol - 1] == numberIn
+                        && cells[cellRow + 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow + 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow + 1][cellCol - 1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow-1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol - 1] == numberIn
+                        && cells[cellRow - 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 1].paint();
                 }
             } else {
-                if(puzzle.numbers[cellRow-2][cellCol-2] == numberIn && cells[cellRow-2][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol-2].paint();
+                if (puzzle.numbers[cellRow - 2][cellCol - 2] == numberIn
+                        && cells[cellRow - 2][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn && cells[cellRow-1][cellCol-2].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-2].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-2].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol - 2] == numberIn
+                        && cells[cellRow - 1][cellCol - 2].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 2].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 2].paint();
                 }
-                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn && cells[cellRow-2][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-2][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-2][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 2][cellCol - 1] == numberIn
+                        && cells[cellRow - 2][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 2][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 2][cellCol - 1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow-1][cellCol-1].status == CellStatus.GIVEN){
-                    cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
-                    cells[cellRow-1][cellCol-1].paint();
+                if (puzzle.numbers[cellRow - 1][cellCol - 1] == numberIn
+                        && cells[cellRow - 1][cellCol - 1].status == CellStatus.GIVEN) {
+                    cells[cellRow - 1][cellCol - 1].status = CellStatus.WRONG_HINT;
+                    cells[cellRow - 1][cellCol - 1].paint();
                 }
             }
         }
@@ -364,7 +403,7 @@ public class GameBoardPanel extends JPanel {
                 reverseHighlight();
                 if (sourceCell.status != CellStatus.GIVEN) {
                     // check if number entered is correct or wrong
-                    if (numberIn == 0){
+                    if (numberIn == 0) {
                         haveAnime = true;
                         System.out.println("0 has been pressed!");
 
@@ -394,7 +433,7 @@ public class GameBoardPanel extends JPanel {
                 }
 
             } else {
-                displayPopup("Error","Please enter a number");
+                displayPopup("Error", "Please enter a number");
             }
 
         }
@@ -418,20 +457,20 @@ public class GameBoardPanel extends JPanel {
     }
 
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g) {
         // super.paintComponent(g);
         super.paintComponent(g);
 
-        if (haveAnime){
-            img =loadAnimeImage();
+        if (haveAnime) {
+            img = loadAnimeImage();
         } else {
-            img =loadImage();
+            img = loadImage();
         }
         // img = loadAnimeImage();
         if (img != null) {
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
         }
-        System.out.println("Reached paint");
+        // System.out.println("Reached paint");
     }
 
     public Image loadImage() {
@@ -449,11 +488,9 @@ public class GameBoardPanel extends JPanel {
         return img;
     }
 
-    
-
     public Image loadAnimeImage() {
         URL imgUrl = getClass().getResource("./images/background-image-copy.png");
-    
+
         if (imgUrl == null) {
             System.err.println("Couldn't find file: ");
         } else {
@@ -468,68 +505,81 @@ public class GameBoardPanel extends JPanel {
     }
 
     // public void callAnime(){
-    //     paintComponent(g);
-    //     img = loadAnimeImage();
-    
+    // paintComponent(g);
+    // img = loadAnimeImage();
+
     // }
 
     // public void repaintComponent(Graphics g){
-    //     super.paintComponent(g);
+    // super.paintComponent(g);
 
-    //     img = loadAnimeImage();
-    //     if (img != null) {
-    //         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-    //     }
+    // img = loadAnimeImage();
+    // if (img != null) {
+    // g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+    // }
     // }
 
     private void WinAnimationDialog() {
         // Create a new dialog for the death animation
         JDialog dialog = new JDialog();
+
+        dialog.setBackground(BG_COLOR);
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.setTitle("Congratulations!");
- 
-        // Tries to play the death sound and open the death animation gif in a new window
-        try {          
- 
-          ImageIcon icon = new ImageIcon(getClass().getResource("./images/slash.gif"));
-          JLabel label = new JLabel(icon);
-          String message = "Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
-          + " seconds\n\nLeaderboard:\n";
-          for (int i = 0; i < WelcomePage.nameList.size(); i++) {
-            message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
-            } 
-          JTextArea textLabel = new JTextArea(message);
-          JButton newGamebtn = new JButton("New Game");
-          newGamebtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                newGame(SudokuMain.frame);
-                dialog.dispose();
-                
+
+        // Tries to play the death sound and open the death animation gif in a new
+        // window
+        try {
+
+            ImageIcon icon = new ImageIcon(getClass().getResource("./images/slash.gif"));
+            JLabel label = new JLabel(icon);
+            String message = "Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
+                    + " seconds\n\nLeaderboard:\n";
+            for (int i = 0; i < WelcomePage.nameList.size(); i++) {
+                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
             }
+            JTextArea textLabel = new JTextArea(message);
+            textLabel.setBackground(BG_COLOR);
+            textLabel.setForeground(darkerColor);
+            JButton newGamebtn = new JButton("New Game");
+            newGamebtn.setBorder(null);
+            newGamebtn.setOpaque(true);
+            newGamebtn.setBackground(darkerColor);
+            newGamebtn.setForeground(BG_COLOR);
+            newGamebtn.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    newGame(SudokuMain.frame);
+                    dialog.dispose();
+
+                }
 
             });
-          dialog.getContentPane().add(label, BorderLayout.CENTER);
-          dialog.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
-          dialog.pack();
-          dialog.setResizable(false);
-          dialog.setLocationRelativeTo(null);
-          dialog.setVisible(true);
- 
-          // Closes the dialog when player clicks outside the dialog window
-          dialog.addWindowFocusListener(new WindowFocusListener() {
-             @Override
-             public void windowGainedFocus(WindowEvent e) {
+            dialog.getContentPane().add(label, BorderLayout.CENTER);
+            dialog.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+            dialog.pack();
+            dialog.setResizable(false);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
+            // Closes the dialog when player clicks outside the dialog window
+            dialog.addWindowFocusListener(new WindowFocusListener() {
+                @Override
+                public void windowGainedFocus(WindowEvent e) {
                     dialog.addKeyListener(new KeyListener() {
                         public void keyPressed(KeyEvent e) {
-                            dialog.getContentPane().remove(label);
-                            dialog.getContentPane().add(textLabel, BorderLayout.CENTER);
-                            dialog.getContentPane().add(newGamebtn,BorderLayout.SOUTH);
-                            dialog.getContentPane().revalidate();
-                            dialog.getContentPane().repaint();
+
+                            JPanel panel = (JPanel) dialog.getContentPane();
+
+                            panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+                            panel.setBackground(BG_COLOR);
+                            panel.remove(label);
+                            panel.add(textLabel, BorderLayout.CENTER);
+                            panel.add(newGamebtn, BorderLayout.SOUTH);
+                            panel.revalidate();
+                            panel.repaint();
                         }
-                        
 
                         @Override
                         public void keyTyped(KeyEvent e) {
@@ -540,18 +590,18 @@ public class GameBoardPanel extends JPanel {
                         }
 
                     });
-                    
-             }
-         
-             @Override
-             public void windowLostFocus(WindowEvent e) {
-                 dialog.dispose();
-             }
-         });
- 
+
+                }
+
+                @Override
+                public void windowLostFocus(WindowEvent e) {
+                    dialog.dispose();
+                }
+            });
+
         } catch (Exception e) {
-           e.printStackTrace();
-           JOptionPane.showMessageDialog(null, "Game Over!");
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Game Over!");
         }
     }
 

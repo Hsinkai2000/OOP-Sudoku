@@ -11,6 +11,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 /**
  * The main Sudoku program
@@ -36,26 +37,28 @@ public class SudokuMain extends JFrame {
     public static JLabel time = new JLabel("Time: 0");
     public static JLabel remaining = new JLabel("Remaining: 0");
     private static Clip clip;
-    private static Container cp ;
-    
-    private final Color BG_COLOR= new Color(253, 243, 212);
+    private static Container cp;
+
+    private final static Color BG_COLOR = new Color(253, 243, 212);
     private final Color darkerColor = new Color(98, 31, 31);
 
     // Constructor
     public SudokuMain() {
         cp = getContentPane();
         cp.setLayout(new BorderLayout());
-
         cp.add(board, BorderLayout.CENTER);
+
         bottomBar.add(time);
         bottomBar.add(score);
         bottomBar.add(remaining);
+        bottomBar.setBorder(new EmptyBorder(10, 10, 10, 10));
         this.add(bottomBar, BorderLayout.SOUTH);
         generateMenuBar();
         this.setJMenuBar(menuBar);
         // Initialize the game board to start the game
         board.newGame(cp);
         playSound();
+        board.setBackground(BG_COLOR);
         pack(); // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // to handle window-closing
         setTitle(TITLE);
@@ -63,9 +66,10 @@ public class SudokuMain extends JFrame {
         setVisible(true);
     }
 
+
     private void generateMenuBar() {
         menuBar = new JMenuBar();
-
+        menuBar.setForeground(darkerColor);
         // File Menu
         JMenu fileMenu = new JMenu("File");
         JMenuItem exit = new JMenuItem("Exit");
@@ -157,14 +161,14 @@ public class SudokuMain extends JFrame {
         });
     }
 
-    public void activateAnime(){
-        board.setPuzzleDifficulty(1);
+    public void activateAnime() {
+        GameBoardPanel.setPuzzleDifficulty(1);
         board.newGame(cp);
         // System.out.println("level difficulty changed to: " + level);
     }
 
     private void changeDifficulty(int level) {
-        board.setPuzzleDifficulty(level);
+        GameBoardPanel.setPuzzleDifficulty(level);
         board.newGame(cp);
         System.out.println("level difficulty changed to: " + level);
     }
@@ -181,8 +185,8 @@ public class SudokuMain extends JFrame {
                     clip.open(inputStream);
                     // Set the volume
                     FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(-10.0f); 
-                    
+                    gainControl.setValue(-10.0f);
+
                     clip.start();
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
