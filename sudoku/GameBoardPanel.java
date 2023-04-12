@@ -41,7 +41,7 @@ public class GameBoardPanel extends JPanel {
     /** It also contains a Puzzle with array numbers and isGiven */
     private Puzzle puzzle = new Puzzle();
     private int score = 0;
-    private int difficulty = 1;
+    private static int difficulty = 1;
     private int blanksLeft;
     private Duration ElapsedTime;
     private Timer stepTimer;
@@ -410,8 +410,8 @@ public class GameBoardPanel extends JPanel {
         }
     }
 
-    public void setPuzzleDifficulty(int level) {
-        this.difficulty = level;
+    public static void setPuzzleDifficulty(int level) {
+        difficulty = level;
     }
 
     @Override
