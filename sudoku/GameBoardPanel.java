@@ -166,13 +166,14 @@ public class GameBoardPanel extends JPanel {
     // Check for same row, column and box
     public void applyWrongHint(int numberIn, int cellRow, int cellCol){
         for (int row = 0; row < GRID_SIZE; ++row) {
-            if(puzzle.numbers[row][cellCol] == numberIn){
-                cells[row][cellCol].status = CellStatus.WRONG_HINT;
+            if(puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status == CellStatus.GIVEN){
+            // if(puzzle.numbers[row][cellCol] == numberIn && cells[row][cellCol].status == CellStatus.GIVEN){
+                    cells[row][cellCol].status = CellStatus.WRONG_HINT;
                 cells[row][cellCol].paint();
             }
         }
         for (int col = 0; col < GRID_SIZE; ++col) {
-            if(puzzle.numbers[cellRow][col] == numberIn){
+            if(puzzle.numbers[cellRow][col] == numberIn && cells[cellRow][col].status == CellStatus.GIVEN){
                 cells[cellRow][col].status = CellStatus.WRONG_HINT;
                 cells[cellRow][col].paint();
             }
@@ -181,53 +182,53 @@ public class GameBoardPanel extends JPanel {
         // For col 0,3,6
         if (cellCol % 3 == 0){
             if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+2].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol+2].paint();
                 }
             } else if (cellRow % 3 == 1){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+2].paint();
                 }
             } else {
-                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-2][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol+2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+2].paint();
                 }
@@ -235,53 +236,53 @@ public class GameBoardPanel extends JPanel {
         } else if (cellCol % 3 == 1){
             // For col 1,4,7
             if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol-1].paint();
                 }
             } else if (cellRow % 3 == 1) {
-                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-1].paint();
                 }
             } else {
-                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol+1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol+1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol+1].paint();
                 }
-                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-1].paint();
                 }
@@ -289,53 +290,53 @@ public class GameBoardPanel extends JPanel {
         } else {
             // For col 2,5,8
             if (cellRow % 3 == 0){
-                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+2][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+2][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+2][cellCol-1].paint();
                 }
             } else if (cellRow % 3 == 1){
-                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow+1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow+1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow+1][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-1].paint();
                 }
             } else {
-                if(puzzle.numbers[cellRow-2][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-2] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-2].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-2].paint();
                 }
-                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-2][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-2][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-2][cellCol-1].paint();
                 }
-                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn){
+                if(puzzle.numbers[cellRow-1][cellCol-1] == numberIn && cells[cellRow][cellCol].status == CellStatus.GIVEN){
                     cells[cellRow-1][cellCol-1].status = CellStatus.WRONG_HINT;
                     cells[cellRow-1][cellCol-1].paint();
                 }
