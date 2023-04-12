@@ -187,9 +187,10 @@ public class WelcomePage extends JFrame {
         difficultyPanel.setBackground(BG_COLOR);
     }
 
-    public static void addToScoreboard(int points){
+    public static void addToScoreboard(int points, int time){
         nameList.add(playerNameField.getText());
         pointList.add(points);
+        timeList.add(time);
     }
     
     public static void main(String[] args) {

@@ -430,7 +430,7 @@ public class GameBoardPanel extends JPanel {
 
                     if (isSolved()) {
                         System.out.println("solved");
-                        WelcomePage.addToScoreboard(score);
+                        WelcomePage.addToScoreboard(score, (int)ElapsedTime.toSeconds());
                         stepTimer.stop();
                         WinAnimationDialog();
 
@@ -543,7 +543,7 @@ public class GameBoardPanel extends JPanel {
             String message = "Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
                     + " seconds\n\nLeaderboard:\n";
             for (int i = 0; i < WelcomePage.nameList.size(); i++) {
-                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
+                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\t\t" + WelcomePage.timeList.get(i) + "\n";
             }
             JTextArea textLabel = new JTextArea(message);
             textLabel.setBackground(BG_COLOR);
