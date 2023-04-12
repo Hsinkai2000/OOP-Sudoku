@@ -18,7 +18,7 @@ import javax.swing.border.Border;
 public class SudokuMain extends JFrame {
     private static final long serialVersionUID = 1L; // to prevent serial warning
     /** App title */
-    public static final String TITLE = "Sudoku";
+    public static final String TITLE = "Sudoku Samurai";
     public static JFrame frame = new JFrame(TITLE);
 
     // private variables
@@ -56,10 +56,10 @@ public class SudokuMain extends JFrame {
         // Initialize the game board to start the game
         board.newGame(cp);
         playSound();
-        setLocationRelativeTo(null);
         pack(); // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // to handle window-closing
-        setTitle("Sudoku");
+        setTitle(TITLE);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 

@@ -23,6 +23,7 @@ public class WelcomePage extends JFrame {
     private JButton scoreboardButton;
     public static ArrayList<String>nameList = new ArrayList<String>();
     public static ArrayList<Integer>pointList = new ArrayList<Integer>();
+    public static ArrayList<Integer>timeList = new ArrayList<Integer>();
     private JPanel difficultyPanel;
     private JRadioButton beginnerRadioButton;
     private JRadioButton intermediateRadioButton;
@@ -35,7 +36,7 @@ public class WelcomePage extends JFrame {
     
 
     public WelcomePage() {
-        setTitle("Welcome to Sudoku");
+        setTitle("Sudoku Samurai");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         welcomePanel = new JPanel();
@@ -68,9 +69,9 @@ public class WelcomePage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String message="Scoreboard is not implemented yet.";
                 if(nameList.size()!=0){
-                    message = "Name\t\tScore\n";
+                    message = "Name\t\tScore\t\tTime\n";
                     for (int i = 0; i < nameList.size(); i++) {
-                        message += nameList.get(i) + "\t\t" + pointList.get(i) + "\n";
+                        message += nameList.get(i) + "\t\t" + pointList.get(i) + "\t\t" + timeList.get(i) +"s\n";
                     }   
                 }
                 
@@ -123,12 +124,16 @@ public class WelcomePage extends JFrame {
     private void populateScoreboard() {
         nameList.add("Jason");
         pointList.add(700);
+        timeList.add(20);
         nameList.add("Jonathan");
         pointList.add(600);
+        timeList.add(30);
         nameList.add("Stephanie");
         pointList.add(400);
+        timeList.add(40);
         nameList.add("Rachel");
         pointList.add(300);
+        timeList.add(50);
         
     }
 

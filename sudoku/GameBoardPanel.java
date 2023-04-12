@@ -9,6 +9,7 @@ import java.awt.geom.Line2D;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -47,6 +48,7 @@ public class GameBoardPanel extends JPanel {
     private Timer stepTimer;
     private Image img;
     public boolean haveAnime = false;
+    private Image gif;
 
     /** Constructor */
     public GameBoardPanel() {
@@ -386,30 +388,19 @@ public class GameBoardPanel extends JPanel {
                         System.out.println("solved");
                         WelcomePage.addToScoreboard(score);
                         stepTimer.stop();
-                        displayPopup("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
-                                + " seconds\n\nLeaderboard:\n");
+                        WinAnimationDialog();
 
                     }
                 }
 
             } else {
-                displayPopup("Please enter a number");
+                displayPopup("Error","Please enter a number");
             }
 
         }
 
-        private void displayPopup(String message) {
-            // JOptionPane.showMessageDialog(null, message);
-            // JFrame frame = SudokuMain.frame;
-            // JLabel label = new JLabel("Congrats");
-            // frame.add(label, BorderLayout.CENTER);
-            // System.out.println("Supposed to show");
-            // SwingUtilities.updateComponentTreeUI(frame);
-
-            for (int i = 0; i < WelcomePage.nameList.size(); i++) {
-                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
-            }   
-            JOptionPane.showMessageDialog(null, message, "Scoreboard", JOptionPane.INFORMATION_MESSAGE);
+        private void displayPopup(String title, String message) {
+            JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
 
         }
 
@@ -425,16 +416,6 @@ public class GameBoardPanel extends JPanel {
     public static void setPuzzleDifficulty(int level) {
         difficulty = level;
     }
-
-    // @Override
-    // public void paintComponent(Graphics g) {
-    //     super.paintComponent(g);
-
-    //     img = loadImage();
-    //     if (img != null) {
-    //         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-    //     }
-    // }
 
     @Override
     public void paintComponent(Graphics g){
@@ -455,7 +436,7 @@ public class GameBoardPanel extends JPanel {
 
     public Image loadImage() {
         // URL imgUrl = getClass().getResource("./images/background-image-copy.png");
-        URL imgUrl = getClass().getResource("./images/background-image2.png");
+        URL imgUrl = getClass().getResource("./images/background-image.png");
         if (imgUrl == null) {
             System.err.println("Couldn't find file: ");
         } else {
@@ -472,6 +453,7 @@ public class GameBoardPanel extends JPanel {
 
     public Image loadAnimeImage() {
         URL imgUrl = getClass().getResource("./images/background-image-copy.png");
+    
         if (imgUrl == null) {
             System.err.println("Couldn't find file: ");
         } else {
@@ -499,4 +481,74 @@ public class GameBoardPanel extends JPanel {
     //         g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
     //     }
     // }
+
+    private void WinAnimationDialog() {
+        // Create a new dialog for the death animation
+        JDialog dialog = new JDialog();
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        dialog.setTitle("Congratulations!");
+ 
+        // Tries to play the death sound and open the death animation gif in a new window
+        try {          
+ 
+          ImageIcon icon = new ImageIcon(getClass().getResource("./images/slash.gif"));
+          JLabel label = new JLabel(icon);
+          JTextArea textLabel = new JTextArea("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
+          + " seconds\n\nLeaderboard:\n");
+          JButton newGamebtn = new JButton("New Game");
+          newGamebtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                newGame(SudokuMain.frame);
+                dialog.dispose();
+                
+            }
+
+            });
+          dialog.getContentPane().add(label, BorderLayout.CENTER);
+          dialog.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+          dialog.pack();
+          dialog.setResizable(false);
+          dialog.setLocationRelativeTo(null);
+          dialog.setVisible(true);
+ 
+          // Closes the dialog when player clicks outside the dialog window
+          dialog.addWindowFocusListener(new WindowFocusListener() {
+             @Override
+             public void windowGainedFocus(WindowEvent e) {
+                    dialog.addKeyListener(new KeyListener() {
+                        public void keyPressed(KeyEvent e) {
+                            dialog.getContentPane().remove(label);
+                            dialog.getContentPane().add(textLabel, BorderLayout.CENTER);
+                            dialog.getContentPane().add(newGamebtn,BorderLayout.SOUTH);
+                            dialog.getContentPane().revalidate();
+                            dialog.getContentPane().repaint();
+                        }
+                        
+
+                        @Override
+                        public void keyTyped(KeyEvent e) {
+                        }
+
+                        @Override
+                        public void keyReleased(KeyEvent e) {
+                        }
+
+                    });
+                    
+             }
+         
+             @Override
+             public void windowLostFocus(WindowEvent e) {
+                 dialog.dispose();
+             }
+         });
+ 
+        } catch (Exception e) {
+           e.printStackTrace();
+           JOptionPane.showMessageDialog(null, "Game Over!");
+        }
+    }
+
 }
