@@ -493,8 +493,12 @@ public class GameBoardPanel extends JPanel {
  
           ImageIcon icon = new ImageIcon(getClass().getResource("./images/slash.gif"));
           JLabel label = new JLabel(icon);
-          JTextArea textLabel = new JTextArea("Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
-          + " seconds\n\nLeaderboard:\n");
+          String message = "Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
+          + " seconds\n\nLeaderboard:\n";
+          for (int i = 0; i < WelcomePage.nameList.size(); i++) {
+            message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\n";
+            } 
+          JTextArea textLabel = new JTextArea(message);
           JButton newGamebtn = new JButton("New Game");
           newGamebtn.addActionListener(new ActionListener() {
             @Override
