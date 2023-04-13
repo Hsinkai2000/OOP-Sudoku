@@ -155,23 +155,10 @@ public class WelcomePage extends JFrame {
     }
 
     private void populateScoreboard() {
-        nameList.add("Jason");
-        pointList.add(700);
-        timeList.add(20);
-        nameList.add("Jonathan");
-        pointList.add(600);
-        timeList.add(30);
-        nameList.add("Stephanie");
-        pointList.add(400);
-        timeList.add(40);
-        nameList.add("Rachel");
-        pointList.add(300);
-        timeList.add(50);
-
-        scores.put("Jason", 700);
-        scores.put("Jonathan", 600);
-        scores.put("Stephanie", 700);
-        scores.put("Rachel", 300);
+        scores.put("Jason", 59 );
+        scores.put("Jonathan", 33);
+        scores.put("Stephanie", 23);
+        scores.put("Rachel", 58);
 
         // scores.put("Jason", Jason);
         // scores.put("Jonathan", Jonathan);
@@ -251,7 +238,7 @@ public class WelcomePage extends JFrame {
         pointList.add(points);
         timeList.add(time);
 
-        scores.put(playerNameField.getText(), points);
+        scores.put(playerNameField.getText(), points/time);
     }
 
     public static void main(String[] args) {
@@ -343,11 +330,11 @@ public class WelcomePage extends JFrame {
         dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         dialog.setTitle("Leaderboard");
 
-        JPanel panel = new JPanel();
             JLabel label = new JLabel();
             String message ="Name\tScore\n"+ loadMessage();
-
-            
+            JPanel panel = new JPanel();
+            panel = (JPanel) dialog.getContentPane();
+            panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
             JTextArea textLabel = new JTextArea(message);
             label.add(textLabel);
@@ -358,8 +345,6 @@ public class WelcomePage extends JFrame {
             dialog.setResizable(false);
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
-            panel.add(dialog.getContentPane());
-            panel.setBorder(new EmptyBorder(10, 10, 10, 10));
        
     }
 }
