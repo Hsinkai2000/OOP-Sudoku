@@ -28,9 +28,6 @@ public class WelcomePage extends JFrame {
     private static JTextField playerNameField;
     private JButton playButton;
     private JButton scoreboardButton;
-    public static ArrayList<String> nameList = new ArrayList<String>();
-    public static ArrayList<Integer> pointList = new ArrayList<Integer>();
-    public static ArrayList<Integer> timeList = new ArrayList<Integer>();
     public static HashMap<String, Integer> scores = new HashMap<String, Integer>();
     private JPanel difficultyPanel;
     private JRadioButton beginnerRadioButton;
@@ -234,10 +231,6 @@ public class WelcomePage extends JFrame {
     }
 
     public static void addToScoreboard(int points, int time) {
-        nameList.add(playerNameField.getText());
-        pointList.add(points);
-        timeList.add(time);
-
         scores.put(playerNameField.getText(), points/time);
     }
 
@@ -341,6 +334,7 @@ public class WelcomePage extends JFrame {
             textLabel.setBackground(BG_COLOR);
             textLabel.setForeground(darkerColor);
             dialog.getContentPane().add(textLabel, BorderLayout.CENTER);
+            dialog.getContentPane().setBackground(BG_COLOR);
             dialog.pack();
             dialog.setResizable(false);
             dialog.setLocationRelativeTo(null);
