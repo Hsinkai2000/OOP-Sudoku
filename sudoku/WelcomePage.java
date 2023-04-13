@@ -188,10 +188,10 @@ public class WelcomePage extends JFrame {
         // pointList.add(300);
         // timeList.add(50);
 
-        scores.put("Jason", 23);
-        scores.put("Jonathan", 5);
-        scores.put("Stephanie", 2);
-        scores.put("Rachel", 7);
+        scores.put("John", 23);
+        scores.put("Mark", 5);
+        scores.put("Dave", 2);
+        scores.put("Teal", 7);
 
         // scores.put("Jason", Jason);
         // scores.put("Jonathan", Jonathan);

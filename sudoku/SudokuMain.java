@@ -30,7 +30,7 @@ public class SudokuMain extends JFrame {
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem resetGame = new JMenuItem("Reset Game");
     JMenuItem musicToggle = new JMenuItem("Music Toggle");
-    JMenuItem animeToggle = new JMenuItem("Anime Toggle");
+    // JMenuItem animeToggle = new JMenuItem("Anime Toggle");
     JMenuItem beginner = new JMenuItem("beginner");
     JMenuItem intermediate = new JMenuItem("intermediate");
     JMenuItem expert = new JMenuItem("expert");
@@ -116,7 +116,7 @@ public class SudokuMain extends JFrame {
         fileMenu.add(resetGame);
         fileMenu.add(level);
         fileMenu.add(musicToggle);
-        fileMenu.add(animeToggle);
+        // fileMenu.add(animeToggle);
         fileMenu.add(exit);
         menuBar.add(fileMenu);
 
@@ -178,19 +178,19 @@ public class SudokuMain extends JFrame {
                     }
                 });
 
-        animeToggle.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        activateAnime();
-                    }
-                });
+        // animeToggle.addActionListener(
+        //         new ActionListener() {
+        //             public void actionPerformed(ActionEvent e) {
+        //                 activateAnime();
+        //             }
+        //         });
     }
 
-    public void activateAnime() {
-        GameBoardPanel.setPuzzleDifficulty(1);
-        board.newGame(cp);
-        // System.out.println("level difficulty changed to: " + level);
-    }
+    // public void activateAnime() {
+    //     GameBoardPanel.setPuzzleDifficulty(1);
+    //     board.newGame(cp);
+    //     // System.out.println("level difficulty changed to: " + level);
+    // }
 
     private void changeDifficulty(int level) {
         GameBoardPanel.setPuzzleDifficulty(level);
