@@ -38,6 +38,7 @@ public class Cell extends JTextField {
     public static final Color BG_PENDING = new Color(0, 0, 216);
     public static final Color BG_WRONG_HINT = new Color(215, 108, 0);
     public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
+    public static final Color BG_HINT = new Color(126, 28, 128);
 
     // Define properties (package-visible)
     /** The row and column number [0-8] of this cell */
@@ -84,6 +85,11 @@ public class Cell extends JTextField {
         paint(); // paint itself
     }
 
+    @Override
+    public void setText(String text) {
+        super.setText(text);
+    }
+
     /** This Cell (JTextField) paints itself based on its status */
     public void paint() {
         if (status == CellStatus.GIVEN) {
@@ -109,6 +115,10 @@ public class Cell extends JTextField {
             super.setForeground(Color.WHITE);
         } else if (status == CellStatus.WRONG_HINT){
             super.setBackground(BG_WRONG_HINT);
+            super.setForeground(Color.WHITE);
+        }
+        else if (status == CellStatus.HINT){
+            super.setBackground(BG_HINT);
             super.setForeground(Color.WHITE);
         }
     }

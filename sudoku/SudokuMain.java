@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -18,12 +17,12 @@ import javax.swing.plaf.basic.BasicProgressBarUI;
  * The main Sudoku program
  */
 public class SudokuMain extends JFrame {
+
     private static final long serialVersionUID = 1L; // to prevent serial warning
     /** App title */
     public static final String TITLE = "Sudoku Samurai";
     public static JFrame frame = new JFrame(TITLE);
 
-    // private variables
     GameBoardPanel board = new GameBoardPanel();
     JMenuItem newGame = new JMenuItem("New Game");
     JMenuItem resetGame = new JMenuItem("Reset Game");
@@ -40,9 +39,9 @@ public class SudokuMain extends JFrame {
     private static Clip clip;
     private static Container cp;
     static JProgressBar progressBar;
-    private static JPanel bottomPanel = new JPanel(new GridLayout(1,0));
+    private static JPanel bottomPanel = new JPanel(new GridLayout(1, 0));
 
-    private final static Color BG_COLOR = new Color(253, 243, 212);
+    private static final Color BG_COLOR = new Color(253, 243, 212);
     private final Color darkerColor = new Color(98, 31, 31);
 
     // Constructor
@@ -50,19 +49,7 @@ public class SudokuMain extends JFrame {
         cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(board, BorderLayout.CENTER);
-
-        progressBar = new JProgressBar(0,100);
-        progressBar.setStringPainted(true);
-        progressBar.setValue(0);
-        progressBar.setForeground(darkerColor);
-        progressBar.setBackground(BG_COLOR);
-        bottomBar.add(progressBar);
-        bottomPanel.add(time);
-        bottomPanel.add(score);
-        bottomPanel.add(remaining);
-        bottomBar.add(bottomPanel);
-        bottomBar.setBorder(new EmptyBorder(10, 10, 10, 10));
-        this.add(bottomBar, BorderLayout.SOUTH);
+        generateBottomBar();
         generateMenuBar();
         this.setJMenuBar(menuBar);
         // Initialize the game board to start the game
@@ -76,6 +63,20 @@ public class SudokuMain extends JFrame {
         setVisible(true);
     }
 
+    private void generateBottomBar(){        
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setStringPainted(true);
+        progressBar.setValue(0);
+        progressBar.setForeground(darkerColor);
+        progressBar.setBackground(BG_COLOR);
+        bottomBar.add(progressBar);
+        bottomPanel.add(time);
+        bottomPanel.add(score);
+        bottomPanel.add(remaining);
+        bottomBar.add(bottomPanel);
+        bottomBar.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.add(bottomBar, BorderLayout.SOUTH);
+    }
 
     private void generateMenuBar() {
         menuBar = new JMenuBar();
@@ -104,71 +105,61 @@ public class SudokuMain extends JFrame {
         menuBar.add(helpMenu);
 
         menuOnclick();
-
     }
 
     private void menuOnclick() {
-        newGame.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                board.newGame(cp);
-            }
-        });
+        newGame.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        board.newGame(cp);
+                    }
+                });
 
-        resetGame.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                board.resetGame();
-            }
-        });
+        resetGame.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        board.resetGame();
+                    }
+                });
 
-        beginner.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                changeDifficulty(1);
-            }
-        });
+        beginner.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeDifficulty(1);
+                    }
+                });
 
-        intermediate.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                changeDifficulty(2);
-            }
-        });
+        intermediate.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeDifficulty(2);
+                    }
+                });
 
-        expert.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                changeDifficulty(3);
-            }
-        });
+        expert.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        changeDifficulty(3);
+                    }
+                });
 
-        musicToggle.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (clip.isRunning()) {
-                    clip.stop();
-                } else {
-                    clip.start();
-                }
-            }
-        });
+        musicToggle.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (clip.isRunning()) {
+                            clip.stop();
+                        } else {
+                            clip.start();
+                        }
+                    }
+                });
 
-        animeToggle.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                activateAnime();
-            }
-        });
-    }
-
-    /** The entry main() entry method */
-    public static void main(String[] args) {
-        // Use the event-dispatcher thread to build the UI for thread-safety.
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                SudokuMain main = new SudokuMain();
-                frame.setContentPane(main); // main JPanel as content pane
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setLocationRelativeTo(null); // center the application window
-                frame.setVisible(true); // show it
-            }
-        });
+        animeToggle.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        activateAnime();
+                    }
+                });
     }
 
     public void activateAnime() {
@@ -184,24 +175,45 @@ public class SudokuMain extends JFrame {
     }
 
     public static synchronized void playSound() {
-        new Thread(new Runnable() {
-            // The wrapper thread is unnecessary, unless it blocks on the
-            // Clip finishing; see comments.
-            public void run() {
-                try {
-                    clip = AudioSystem.getClip();
-                    AudioInputStream inputStream = AudioSystem.getAudioInputStream(
-                            SudokuMain.class.getResourceAsStream("./Music/love-mellow-piano-143300.wav"));
-                    clip.open(inputStream);
-                    // Set the volume
-                    FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(-10.0f);
+        new Thread(
+                new Runnable() {
+                    // The wrapper thread is unnecessary, unless it blocks on the
+                    // Clip finishing; see comments.
+                    public void run() {
+                        try {
+                            clip = AudioSystem.getClip();
+                            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                                    SudokuMain.class.getResourceAsStream(
+                                            "./Music/love-mellow-piano-143300.wav"));
+                            clip.open(inputStream);
+                            // Set the volume
+                            FloatControl gainControl = (FloatControl) clip.getControl(
+                                    FloatControl.Type.MASTER_GAIN);
+                            gainControl.setValue(-10.0f);
 
-                    clip.start();
-                } catch (Exception e) {
-                    System.err.println(e.getMessage());
-                }
-            }
-        }).start();
+                            clip.start();
+                        } catch (Exception e) {
+                            System.err.println(e.getMessage());
+                        }
+                    }
+                })
+                .start();
     }
+
+    public static void main(String[] args) {
+        // Use the event-dispatcher thread to build the UI for thread-safety.
+        SwingUtilities.invokeLater(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        SudokuMain main = new SudokuMain();
+                        frame.setContentPane(main); // main JPanel as content pane
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        frame.pack();
+                        frame.setLocationRelativeTo(null); // center the application window
+                        frame.setVisible(true); // show it
+                    }
+                });
+    }
+
 }
