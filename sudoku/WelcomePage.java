@@ -1,5 +1,7 @@
 package sudoku;
-
+import java.util.*;
+import java.lang.*;
+ 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -12,6 +14,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Flow;
 
 public class WelcomePage extends JFrame {
@@ -24,6 +29,7 @@ public class WelcomePage extends JFrame {
     public static ArrayList<String>nameList = new ArrayList<String>();
     public static ArrayList<Integer>pointList = new ArrayList<Integer>();
     public static ArrayList<Integer>timeList = new ArrayList<Integer>();
+    public static HashMap<String, Integer> scores = new HashMap<String, Integer>();
     private JPanel difficultyPanel;
     private JRadioButton beginnerRadioButton;
     private JRadioButton intermediateRadioButton;
@@ -69,12 +75,19 @@ public class WelcomePage extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String message="Scoreboard is not implemented yet.";
                 if(nameList.size()!=0){
-                    message = "Name\t\tScore\t\tTime\n";
-                    for (int i = 0; i < nameList.size(); i++) {
-                        message += nameList.get(i) + "\t\t" + pointList.get(i) + "\t\t" + timeList.get(i) +"s\n";
-                    }   
+                    message = "Name\t\tScore\n";
+                    // message = "Name\t\tScore\t\tTime\n";
+                    // for (int i = 0; i < nameList.size(); i++) {
+                    //     message += nameList.get(i) + "\t\t" + pointList.get(i) + "\t\t" + timeList.get(i) +"s\n";
+                    // }   
+                    // scores.forEach(
+                    //     (key,value) -> message += key + value
+                    // );
+
+                    // Hashmap
+
+                    message += loadMessage();
                 }
-                
                 JOptionPane.showMessageDialog(null, message, "Scoreboard", JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -121,6 +134,40 @@ public class WelcomePage extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    public static HashMap<String, Integer> sortByValue(HashMap<String, Integer> hm)
+    {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer> > list =
+               new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+ 
+        // Sort the list
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2)
+            {
+                return (o2.getValue()).compareTo(o1.getValue());
+            }
+        });
+         
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+
+    public static String loadMessage(){
+        String message = "";
+        Map<String, Integer> hm1 = sortByValue(scores);
+        for (Map.Entry<String, Integer> en : hm1.entrySet()) {
+            System.out.println(en.getKey() +
+                          ", " + en.getValue());
+            message += en.getKey() + "\t\t" + en.getValue() +"s\n";
+        }
+        return message;
+    }
+
     private void populateScoreboard() {
         nameList.add("Jason");
         pointList.add(700);
@@ -134,7 +181,30 @@ public class WelcomePage extends JFrame {
         nameList.add("Rachel");
         pointList.add(300);
         timeList.add(50);
-        
+
+        scores.put("Jason", 700);
+        scores.put("Jonathan", 600);
+        scores.put("Stephanie", 700);
+        scores.put("Rachel", 300);
+
+        // scores.put("Jason", Jason);
+        // scores.put("Jonathan", Jonathan);
+        // scores.put("Stephanie", Stephanie);
+        // scores.put("Rachel", Rachel);
+
+        Map<String, Integer> hm1 = sortByValue(scores);
+ 
+        // print the sorted hashmap
+        // for (Map.Entry<String, Integer> en : hm1.entrySet()) {
+        //     System.out.println("Key = " + en.getKey() +
+        //                   ", Value = " + en.getValue());
+        // }
+
+        for (Map.Entry<String, Integer> en : hm1.entrySet()) {
+            System.out.println(en.getKey() +
+                          ", " + en.getValue());
+        }
+
     }
 
     private void displayRadioButton() {
@@ -191,6 +261,9 @@ public class WelcomePage extends JFrame {
         nameList.add(playerNameField.getText());
         pointList.add(points);
         timeList.add(time);
+
+        scores.put(playerNameField.getText(), points);
+
     }
     
     public static void main(String[] args) {

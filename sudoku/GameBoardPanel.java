@@ -542,9 +542,21 @@ public class GameBoardPanel extends JPanel {
             JLabel label = new JLabel(icon);
             String message = "Congratulation! You WON!\nScore: " + score + "\nTime: " + ElapsedTime.toSeconds()
                     + " seconds\n\nLeaderboard:\n";
-            for (int i = 0; i < WelcomePage.nameList.size(); i++) {
-                message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\t\t" + WelcomePage.timeList.get(i) + "\n";
-            }
+            // for (int i = 0; i < WelcomePage.nameList.size(); i++) {
+            //     message += WelcomePage.nameList.get(i) + "\t\t" + WelcomePage.pointList.get(i) + "\t\t" + WelcomePage.timeList.get(i) + "\n";
+            // }
+
+            message += WelcomePage.loadMessage();
+
+
+            // // Hashmap
+            // Map<String, Integer> hm1 = sortByValue(WelcomePage.scores);
+            // for (Map.Entry<String, Integer> en : hm1.entrySet()) {
+            //     System.out.println(en.getKey() +
+            //                   ", " + en.getValue());
+            //     message += en.getKey() + "\t\t" + en.getValue() +"s\n";
+            // }
+
             JTextArea textLabel = new JTextArea(message);
             textLabel.setBackground(BG_COLOR);
             textLabel.setForeground(darkerColor);
