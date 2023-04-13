@@ -53,10 +53,33 @@ public class WelcomePage extends JFrame {
         loadImage();
         scoreboardbtnOnClick();
         setupGrid();
+
+        applyFont();
         add(welcomePanel);
         setVisible(true);
         pack();
         setLocationRelativeTo(null);
+    }
+
+    private void applyFont(){
+        URL fontUrl = getClass().getResource("./Font/alice_smile/Alice Smile.ttf");
+        Font customFont;
+        try {
+            customFont = Font.createFont(Font.PLAIN, fontUrl.openStream()).deriveFont(13f);
+            welcomeLabel.setFont(customFont);
+            playerNameField.setFont(customFont);
+            playButton.setFont(customFont);
+            scoreboardButton.setFont(customFont);
+            beginnerRadioButton.setFont(customFont);
+            intermediateRadioButton.setFont(customFont);
+            expertRadioButton.setFont(customFont);
+        } catch (FontFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void setupGrid() {

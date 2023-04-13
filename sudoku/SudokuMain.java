@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Console;
+import java.io.IOException;
+import java.net.URL;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -56,11 +59,32 @@ public class SudokuMain extends JFrame {
         board.newGame(cp);
         playSound();
         board.setBackground(BG_COLOR);
+        applyFont();
         pack(); // Pack the UI components, instead of using setSize()
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // to handle window-closing
         setTitle(TITLE);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void applyFont(){
+        URL fontUrl = getClass().getResource("./Font/gemstone/Gemstone.ttf");
+        Font customFont;
+        try {
+            customFont = Font.createFont(Font.PLAIN, fontUrl.openStream()).deriveFont(20f);
+            
+            score.setFont(customFont);
+            time.setFont(customFont);
+            remaining.setFont(customFont);
+            progressBar.setFont(customFont);
+            
+        } catch (FontFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void generateBottomBar(){        

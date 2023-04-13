@@ -34,11 +34,11 @@ public class Cell extends JTextField {
     public static final Color FG_NOT_GIVEN = Color.GREEN;
     public static final Color BG_TO_GUESS = new Color(215, 32, 35, 0);
     public static final Color BG_CORRECT_GUESS = new Color(0, 216, 0);
-    public static final Color BG_WRONG_GUESS = new Color(216, 0, 0);
-    public static final Color BG_PENDING = new Color(0, 0, 216);
-    public static final Color BG_WRONG_HINT = new Color(215, 108, 0);
+    public static final Color BG_WRONG_GUESS = new Color(255, 171, 171);
+    public static final Color BG_PENDING = new Color(110, 180, 255);
+    public static final Color BG_WRONG_HINT = new Color(246, 140, 112);
     public static final Font FONT_NUMBERS = new Font("OCR A Extended", Font.PLAIN, 28);
-    public static final Color BG_HINT = new Color(126, 28, 128);
+    public static final Color BG_HINT = new Color(149, 125, 173);
 
     // Define properties (package-visible)
     /** The row and column number [0-8] of this cell */
