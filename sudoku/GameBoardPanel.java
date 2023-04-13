@@ -426,18 +426,34 @@ public class GameBoardPanel extends JPanel {
                         if (numberIn == 0) {
                             haveAnime = true;
                         }
-                        if (numberIn == sourceCell.number) {
-                            correctGuess(numberIn);
-                        } else {
-                            sourceCell.status = CellStatus.WRONG_GUESS;
-                            applyWrongHint(numberIn, sourceCell.row, sourceCell.col);
+                        if(haveAnime){
+                            if (numberIn == sourceCell.number) {
+                                correctGuess(numberIn);
+                            } else {
+                                sourceCell.status = CellStatus.WRONG_GUESS;
+                                applyPendingAnime(in);
+                            }
+                            sourceCell.paint(); // re-paint this cell based on its status
+                            SudokuMain.score.setText("Score: " + score);
+    
+                            if (isSolved()) {
+                                puzzleSolved();
+                            }
                         }
-                        sourceCell.paint(); // re-paint this cell based on its status
-                        SudokuMain.score.setText("Score: " + score);
-
-                        if (isSolved()) {
-                            puzzleSolved();
-                        }
+                        else{
+                            if (numberIn == sourceCell.number) {
+                                correctGuess(numberIn);
+                            } else {
+                                sourceCell.status = CellStatus.WRONG_GUESS;
+                                applyWrongHint(numberIn, sourceCell.row, sourceCell.col);
+                            }
+                            sourceCell.paint(); // re-paint this cell based on its status
+                            SudokuMain.score.setText("Score: " + score);
+    
+                            if (isSolved()) {
+                                puzzleSolved();
+                            }
+                        }                        
                     }
                 }
             } 
@@ -503,6 +519,20 @@ public class GameBoardPanel extends JPanel {
                                       
                             System.out.println("inside condition" + cells[i][j].status);
                             cells[i][j].status=CellStatus.HINT;
+                            cells[i][j].paint();
+                        }
+                    }
+                }
+            }
+        }
+        
+        private void applyPendingAnime(char input){
+            for (int i = 0; i < cells.length; i++) {
+                for (int j = 0; j < cells[i].length; j++) {
+                    if (cells[i][j].number == Character.getNumericValue(input)){
+                        if(cells[i][j].status == CellStatus.GIVEN || cells[i][j].status == CellStatus.CORRECT_GUESS) {
+                                      
+                            cells[i][j].status=CellStatus.PENDING;
                             cells[i][j].paint();
                         }
                     }

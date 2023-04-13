@@ -124,27 +124,7 @@ public class WelcomePage extends JFrame {
         scoreboardButton.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        String message = "Scoreboard is not implemented yet.";
-                        // if (nameList.size() != 0) {
-                            message = "Name\t\tScore\n";
-                            // message = "Name\t\tScore\t\tTime\n";
-                            // for (int i = 0; i < nameList.size(); i++) {
-                            // message += nameList.get(i) + "\t\t" + pointList.get(i) + "\t\t" +
-                            // timeList.get(i) +"s\n";
-                            // }
-                            // scores.forEach(
-                            // (key,value) -> message += key + value
-                            // );
-
-                            // Hashmap
-
-                            message += loadMessage();
-                        // }
-                        JOptionPane.showMessageDialog(
-                                null,
-                                message,
-                                "Scoreboard",
-                                JOptionPane.INFORMATION_MESSAGE);
+                        scoreboardDialog();
                     }
                 });
 
@@ -175,23 +155,23 @@ public class WelcomePage extends JFrame {
     }
 
     private void populateScoreboard() {
-        // nameList.add("Jason");
-        // pointList.add(700);
-        // timeList.add(20);
-        // nameList.add("Jonathan");
-        // pointList.add(600);
-        // timeList.add(30);
-        // nameList.add("Stephanie");
-        // pointList.add(400);
-        // timeList.add(40);
-        // nameList.add("Rachel");
-        // pointList.add(300);
-        // timeList.add(50);
+        nameList.add("Jason");
+        pointList.add(700);
+        timeList.add(20);
+        nameList.add("Jonathan");
+        pointList.add(600);
+        timeList.add(30);
+        nameList.add("Stephanie");
+        pointList.add(400);
+        timeList.add(40);
+        nameList.add("Rachel");
+        pointList.add(300);
+        timeList.add(50);
 
-        scores.put("John", 23);
-        scores.put("Mark", 5);
-        scores.put("Dave", 2);
-        scores.put("Teal", 7);
+        scores.put("Jason", 700);
+        scores.put("Jonathan", 600);
+        scores.put("Stephanie", 700);
+        scores.put("Rachel", 300);
 
         // scores.put("Jason", Jason);
         // scores.put("Jonathan", Jonathan);
@@ -271,7 +251,7 @@ public class WelcomePage extends JFrame {
         pointList.add(points);
         timeList.add(time);
 
-        scores.put(playerNameField.getText(), points / time);
+        scores.put(playerNameField.getText(), points);
     }
 
     public static void main(String[] args) {
@@ -349,9 +329,39 @@ public class WelcomePage extends JFrame {
         Map<String, Integer> hm1 = sortByValue(scores);
         for (Map.Entry<String, Integer> en : hm1.entrySet()) {
             System.out.println(en.getKey() + ", " + en.getValue());
-            message += en.getKey() + "\t\t" + en.getValue() + "\n";
+            message += en.getKey() + "\t" + en.getValue() + "\n";
         }
         return message;
     }
 
+    
+    private void scoreboardDialog() {
+        // Create a new dialog for the death animation
+        JDialog dialog = new JDialog();
+
+        dialog.setBackground(BG_COLOR);
+        dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        dialog.setTitle("Leaderboard");
+
+        JPanel panel = new JPanel();
+            JLabel label = new JLabel();
+            String message ="Name\tScore\n"+ loadMessage();
+
+            
+
+            JTextArea textLabel = new JTextArea(message);
+            label.add(textLabel);
+            textLabel.setBackground(BG_COLOR);
+            textLabel.setForeground(darkerColor);
+            dialog.getContentPane().add(textLabel, BorderLayout.CENTER);
+            dialog.pack();
+            dialog.setResizable(false);
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+            panel.add(dialog.getContentPane());
+            panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+       
+    }
 }
+
+
