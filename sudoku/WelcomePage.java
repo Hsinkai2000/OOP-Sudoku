@@ -125,7 +125,7 @@ public class WelcomePage extends JFrame {
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         String message = "Scoreboard is not implemented yet.";
-                        if (nameList.size() != 0) {
+                        // if (nameList.size() != 0) {
                             message = "Name\t\tScore\n";
                             // message = "Name\t\tScore\t\tTime\n";
                             // for (int i = 0; i < nameList.size(); i++) {
@@ -139,7 +139,7 @@ public class WelcomePage extends JFrame {
                             // Hashmap
 
                             message += loadMessage();
-                        }
+                        // }
                         JOptionPane.showMessageDialog(
                                 null,
                                 message,
@@ -175,23 +175,23 @@ public class WelcomePage extends JFrame {
     }
 
     private void populateScoreboard() {
-        nameList.add("Jason");
-        pointList.add(700);
-        timeList.add(20);
-        nameList.add("Jonathan");
-        pointList.add(600);
-        timeList.add(30);
-        nameList.add("Stephanie");
-        pointList.add(400);
-        timeList.add(40);
-        nameList.add("Rachel");
-        pointList.add(300);
-        timeList.add(50);
+        // nameList.add("Jason");
+        // pointList.add(700);
+        // timeList.add(20);
+        // nameList.add("Jonathan");
+        // pointList.add(600);
+        // timeList.add(30);
+        // nameList.add("Stephanie");
+        // pointList.add(400);
+        // timeList.add(40);
+        // nameList.add("Rachel");
+        // pointList.add(300);
+        // timeList.add(50);
 
-        scores.put("Jason", 700);
-        scores.put("Jonathan", 600);
-        scores.put("Stephanie", 700);
-        scores.put("Rachel", 300);
+        scores.put("Jason", 23);
+        scores.put("Jonathan", 5);
+        scores.put("Stephanie", 2);
+        scores.put("Rachel", 7);
 
         // scores.put("Jason", Jason);
         // scores.put("Jonathan", Jonathan);
@@ -271,7 +271,7 @@ public class WelcomePage extends JFrame {
         pointList.add(points);
         timeList.add(time);
 
-        scores.put(playerNameField.getText(), points);
+        scores.put(playerNameField.getText(), points / time);
     }
 
     public static void main(String[] args) {
@@ -349,7 +349,7 @@ public class WelcomePage extends JFrame {
         Map<String, Integer> hm1 = sortByValue(scores);
         for (Map.Entry<String, Integer> en : hm1.entrySet()) {
             System.out.println(en.getKey() + ", " + en.getValue());
-            message += en.getKey() + "\t\t" + en.getValue() + "s\n";
+            message += en.getKey() + "\t\t" + en.getValue() + "\n";
         }
         return message;
     }
