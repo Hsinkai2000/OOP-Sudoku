@@ -51,7 +51,7 @@ public class GameBoardPanel extends JPanel {
     private Duration ElapsedTime;
     private Timer stepTimer;
     private Image img;
-    public boolean haveAnime = false;
+    public boolean isAnime = false;
     private Image gif;
     public static ArrayList<Instant> instantList = new ArrayList<Instant>();
 
@@ -135,6 +135,9 @@ public class GameBoardPanel extends JPanel {
                         puzzle.isGiven[row][col]);
             }
         }
+        SudokuMain.progressBar.setValue(0);
+        
+        SudokuMain.progressBar.repaint();
     }
 
     /**
@@ -424,9 +427,9 @@ public class GameBoardPanel extends JPanel {
                     if (sourceCell.status != CellStatus.GIVEN) {
                         // check if number entered is correct or wrong
                         if (numberIn == 0) {
-                            haveAnime = true;
+                            isAnime = !isAnime;
                         }
-                        if(haveAnime){
+                        if(isAnime){
                             if (numberIn == sourceCell.number) {
                                 correctGuess(numberIn);
                             } else {
@@ -571,7 +574,7 @@ public class GameBoardPanel extends JPanel {
         // super.paintComponent(g);
         super.paintComponent(g);
 
-        if (haveAnime) {
+        if (isAnime) {
             img = loadAnimeImage();
         } else {
             img = loadImage();

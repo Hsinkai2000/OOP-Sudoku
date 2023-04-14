@@ -231,7 +231,15 @@ public class WelcomePage extends JFrame {
     }
 
     public static void addToScoreboard(int points, int time) {
-        scores.put(playerNameField.getText(), points/time);
+        if(scores.get(playerNameField.getText()) == null){
+            scores.put(playerNameField.getText(), points/time);  
+        }
+        else{
+            if (points/time > scores.get(playerNameField.getText())) {
+                scores.put(playerNameField.getText(), points/time);            
+            }
+        }
+        
     }
 
     public static void main(String[] args) {
