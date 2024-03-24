@@ -1,5 +1,5 @@
 # Sudoku Java Game
-##This project implements a classic Sudoku game in Java.
+## This project implements a classic Sudoku game in Java.
 
 ## Getting Started
 This section provides instructions on how to run the game.
